@@ -11,7 +11,8 @@
         android:theme="@style/Theme.Tariqi">
         <activity
             android:name=".Sign_Up"
-            android:exported="true" >
+            android:exported="true"
+            android:label="@string/sign_up">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

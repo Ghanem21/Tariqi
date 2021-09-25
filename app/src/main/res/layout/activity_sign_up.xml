@@ -34,6 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -49,10 +51,14 @@
         android:id="@+id/sign_up_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_password_edittext"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
@@ -63,11 +69,15 @@
         android:id="@+id/sign_up_confirm_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_confirm_password_edittext"
             android:layout_width="match_parent"
+            android:inputType="textPassword"
             android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
             android:hint="@string/confirm_password"
