@@ -12,10 +12,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_weight="1"
-        android:scaleType="centerCrop"
+        android:scaleType="center"
         app:srcCompat="@drawable/txtLogo" />
 
     <TextView
@@ -31,7 +31,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/sign_up_mail_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_weight="1"
         app:startIconDrawable="@android:drawable/sym_action_email">
 
@@ -51,7 +51,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_password_edittext"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
             android:hint="@string/password" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +65,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_confirm_password_edittext"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
             android:hint="@string/confirm_password"
             android:hintTextColor="#757575" />
@@ -74,12 +74,12 @@
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_weight="1"
         android:background="@color/green"
         android:text="@string/sign_up"
         android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView"
