@@ -6,15 +6,17 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:gravity="center"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".Sign_Up">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/txtLogo" />
 
     <TextView
         android:id="@+id/textView4"
@@ -23,13 +25,15 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/sign_up"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="34sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/sign_up_mail_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:startIconDrawable="@android:drawable/sym_action_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_mail_edittext"
@@ -48,6 +52,7 @@
             android:id="@+id/sign_up_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@android:drawable/ic_lock_lock"
             android:hint="@string/password" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,7 +66,9 @@
             android:id="@+id/sign_up_confirm_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/confirm_password" />
+            android:drawableStart="@android:drawable/ic_lock_lock"
+            android:hint="@string/confirm_password"
+            android:hintTextColor="#757575" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -69,7 +76,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/sign_up" />
+        android:background="@color/green"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView"
@@ -77,8 +87,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:text="@string/or_sign_up_with"
         android:textColor="@color/black"
-        android:text="@string/or_sign_up_with" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,24 +99,24 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/google" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/facebook" />
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/twitter" />
     </LinearLayout>
 
     <LinearLayout
@@ -120,13 +131,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/have_account" />
+            android:text="@string/have_account"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sign_in" />
+            android:text="@string/sign_in"
+            android:textColor="@color/green"
+            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>
