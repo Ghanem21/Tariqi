@@ -26,33 +26,39 @@
         android:textColor="@color/black" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/sign_up_mail_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sign_up_mail_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/mail" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/sign_up_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sign_up_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/sign_up_confirm_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sign_up_confirm_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password" />
