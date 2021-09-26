@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="5dp"
-            android:hint="@string/mail" />
+            android:hint="@string/mail"
+            tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,11 +59,12 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_password_edittext"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -77,11 +79,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_up_confirm_password_edittext"
             android:layout_width="match_parent"
-            android:inputType="textPassword"
             android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
             android:hint="@string/confirm_password"
-             />
+            android:inputType="textPassword"
+            tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

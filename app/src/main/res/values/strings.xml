@@ -8,4 +8,11 @@
     <string name="have_account">have account?</string>
     <string name="sign_in">sign in</string>
     <string name="add_trip">Add Trip</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="sync">Sync</string>
+    <string name="log_out">Log Out</string>
+    <string name="name">Name</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
