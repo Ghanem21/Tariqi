@@ -11,16 +11,19 @@
         android:theme="@style/Theme.Tariqi">
         <activity
             android:name=".home"
-            android:exported="true" />
-        <activity
-            android:name=".Sign_Up"
             android:exported="true"
-            android:label="@string/sign_up">
+            android:label="Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Sign_Up"
+            android:exported="true"
+            android:label="@string/sign_up">
+
         </activity>
         <activity
             android:name=".MainActivity"
