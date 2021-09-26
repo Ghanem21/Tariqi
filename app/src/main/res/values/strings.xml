@@ -7,4 +7,10 @@
     <string name="or_sign_up_with">Or Sign Up with</string>
     <string name="have_account">have account?</string>
     <string name="sign_in">sign in</string>
+    <string name="signin1">Sign In</string>
+    <string name="forgetpassword">Forget Password</string>
+    <string name="orsignin">Or Sign In With</string>
+    <string name="donthaveaccount">Don\'t Have Account</string>
+    <string name="donthaveaccount1">"Don't Have Account?"<a href="http://www.google.com">Register</a></string>
+
 </resources>
