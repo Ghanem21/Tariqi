@@ -58,17 +58,19 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout"
         android:background="@drawable/button"
-        android:textColor="@drawable/button_text_color"
         android:text="@string/start"
-        android:layout_below="@id/linear_layout"/>
-    <ImageView
+        android:textColor="@drawable/button_text_color" />
+
+    <ImageButton
         android:id="@+id/imageView_note"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/sticky_notes"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/sticky_notes" />
 
 </RelativeLayout>

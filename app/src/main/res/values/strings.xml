@@ -21,4 +21,8 @@
     <string name="time">Time</string>
     <string name="trip_type">Trip Type</string>
     <string name="start">Start</string>
+    <string name="add_note">Add Note</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 </resources>

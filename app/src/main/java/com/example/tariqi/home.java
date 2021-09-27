@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -24,8 +26,10 @@ public class home extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ListView listView;
-    private ArrayAdapter adapter;
+    private HomeAdapter adapter;
     private ImageButton add;
+    String[] names , locations , dates , times , types;
+    Trip[] trips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         add = (ImageButton) findViewById(R.id.home_add_btn);
+
         //custm toolbar to make drawer over toolbar
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.new_toolbar);
         setSupportActionBar(toolbar);
@@ -44,12 +49,17 @@ public class home extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        //create normal Listview
+        //create Listview
         listView = findViewById(R.id.home_listview);
-        ArrayList arrayList = new ArrayList();
-        for (int i = 1;i <= 10;i++)
-            arrayList.add(i+"");
-        adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item, arrayList);
+        names = new String[]{"Trip 1" , "Trip 2"};
+        locations = new String[]{"Alex" , "Cairo"};
+        dates = new String[]{"10/12" , "1/10"};
+        times = new String[]{"10:30" , "00:00"};
+        types = new String[]{"one way" , "one way"};
+        trips = new Trip[2];
+        for (int i = 0;i < names.length;i++)
+            trips[i] = new Trip(names[i],locations[i],dates[i],times[i],types[i]);
+        adapter = new HomeAdapter(getApplicationContext(),R.layout.home_list_view_layout,trips);
         listView.setAdapter(adapter);
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +68,34 @@ public class home extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"it work",Toast.LENGTH_SHORT).show();
             }
         });
+        registerForContextMenu(listView);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu,v,menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_list_view_menu,menu);
+    }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_add_note:
+                Toast.makeText(getApplicationContext(), "Add note", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_cancel:
+                Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_delete:
+                Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_edit:
+                Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
