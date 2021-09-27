@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:orientation="vertical"
-    android:background="@color/green">
-
+    android:orientation="vertical">
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/header_background"
+        android:scaleType="matrix"/>
+    <ImageView
+        android:id="@+id/menu_img"
         android:layout_width="81dp"
         android:layout_height="75dp"
         android:layout_margin="15dp"
@@ -20,5 +24,6 @@
         android:text="@string/name"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:textStyle="bold|italic" />
-</LinearLayout>
+        android:textStyle="bold|italic"
+        android:layout_below="@id/menu_img"/>
+</RelativeLayout>
