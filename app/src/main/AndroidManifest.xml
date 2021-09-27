@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tariqi">
+    package="com.example.tariqi" >
 
     <application
         android:allowBackup="true"
@@ -14,6 +14,14 @@
             android:name=".Add_Trip"
             android:exported="true"
             />
+        android:theme="@style/Theme.Tariqi" >
+        <activity
+            android:name=".ItemHistory"
+            android:exported="true" />
+        <activity
+            android:name=".History"
+            android:exported="true" />
+
         <activity
             android:name=".splash_screen"
             android:exported="true" />
@@ -23,7 +31,7 @@
         <activity
             android:name=".Sign_Up"
             android:exported="true"
-            android:label="@string/sign_up">
+            android:label="@string/sign_up" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

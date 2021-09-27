@@ -3,13 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+
         <entry key="..\:/Users/hodam/AndroidStudioProjects/Tariqia/app/src/main/res/layout/activity_add_trip.xml" value="0.2421875" />
         <entry key="..\:/Users/hodam/AndroidStudioProjects/Tariqia/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
         <entry key="..\:/Users/hodam/AndroidStudioProjects/Tariqia/app/src/main/res/layout/activity_sign_in.xml" value="0.2421875" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/drawable/button.xml" value="0.26615384615384613" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/activity_history.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/activity_item_history.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/activity_sign_in.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/activity_splash_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/card_history.xml" value="0.2351851851851852" />
+        <entry key="..\:/Users/rahma/AndroidStudioProjects/Tariqi/app/src/main/res/layout/item_history.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

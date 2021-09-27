@@ -19,4 +19,13 @@
     <string name="time">Time</string>
     <string name="addtip">Add Trip</string>
 
+    <string name="details_item">show details</string>
+    <string name="trip_name_history">trip name</string>
+    <string name="start_position_hestory">start position</string>
+    <string name="end_position_history">end position</string>
+    <string name="time_history">time</string>
+    <string name="date_history">date</string>
+    <string name="note_history">notes</string>
+    <string name="delete_trip">Delete Trip</string>
+
 </resources>
