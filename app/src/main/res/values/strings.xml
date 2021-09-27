@@ -7,6 +7,25 @@
     <string name="or_sign_up_with">Or Sign Up with</string>
     <string name="have_account">have account?</string>
     <string name="sign_in">sign in</string>
+    <string name="add_trip">Add Trip</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="sync">Sync</string>
+    <string name="log_out">Log Out</string>
+    <string name="name">Name</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="trip_name">Trip Name</string>
+    <string name="location">Location</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="trip_type">Trip Type</string>
+    <string name="start">Start</string>
+    <string name="add_note">Add Note</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+
     <string name="signin1">Sign In</string>
     <string name="forgetpassword">Forget Password</string>
     <string name="orsignin">Or Sign In With</string>
@@ -27,5 +46,6 @@
     <string name="date_history">date</string>
     <string name="note_history">notes</string>
     <string name="delete_trip">Delete Trip</string>
+
 
 </resources>
