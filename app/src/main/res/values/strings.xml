@@ -32,6 +32,12 @@
     <string name="donthaveaccount">Don\'t Have Account</string>
     <string name="donthaveaccount1">"Don't Have Account?"<a href="http://www.google.com">Register</a></string>
     <string name="trip_name">Trip Name</string>
+    <string name="start_point">Start Point</string>
+    <string name="endpoint">End Point</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="addtip">Add Trip</string>
+
     <string name="details_item">show details</string>
     <string name="trip_name_history">trip name</string>
     <string name="start_position_hestory">start position</string>
