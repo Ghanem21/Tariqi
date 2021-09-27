@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo2"
+        android:icon="@mipmap/ic_launcher_icon_round"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo2"
         android:supportsRtl="true"
@@ -22,9 +22,13 @@
             android:name=".SignInActivity"
             android:exported="true" />
         <activity
-            android:name=".Sign_Up"
+            android:name=".home"
             android:exported="true"
+
+            android:label="Home">
+
             android:label="@string/sign_up" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +36,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Sign_Up"
+            android:exported="true"
+            android:label="@string/sign_up">
+
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"></activity>
             android:name=".MainActivity"
             android:exported="true" />
     </application>
