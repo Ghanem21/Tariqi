@@ -15,10 +15,7 @@
     <string name="name">Name</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="trip_name">Trip Name</string>
     <string name="location">Location</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
     <string name="trip_type">Trip Type</string>
     <string name="start">Start</string>
     <string name="add_note">Add Note</string>

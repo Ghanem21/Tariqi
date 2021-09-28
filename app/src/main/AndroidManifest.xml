@@ -14,8 +14,14 @@
         <activity
             android:name=".Add_Trip"
             android:exported="true"
-            />
-        android:theme="@style/Theme.Tariqi" >
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ItemHistory"
             android:exported="true" />
@@ -33,11 +39,7 @@
             android:name=".home"
             android:exported="true"
             android:label="Home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Sign_Up"

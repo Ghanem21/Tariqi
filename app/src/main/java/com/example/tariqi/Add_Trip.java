@@ -1,15 +1,27 @@
 package com.example.tariqi;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+
 import android.view.View;
-import android.view.WindowManager;
+
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,11 +29,40 @@ import java.util.Locale;
 
 public class Add_Trip extends AppCompatActivity {
 TextView textView;
+    //ghanem add for datebase
+    FirebaseFirestore db;
+    EditText tripName,startPoint,endPoint;
+    Button addTrip;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
+        //ghanem add for datebase
+        db = FirebaseFirestore.getInstance();
+        tripName = (EditText)findViewById(R.id.edt_trip_name);
+        startPoint = (EditText)findViewById(R.id.edt_start_point);
+        endPoint = (EditText)findViewById(R.id.edt_end_point);
+        addTrip = (Button)findViewById(R.id.btn_add_trip);
+        radioGroup = (RadioGroup) findViewById(R.id.groupradio);
+
+        addTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = tripName.getText().toString();
+                String start = startPoint.getText().toString();
+                String end = endPoint.getText().toString();
+                //String date = mahmoud return fun for date;
+                //String time = mahmoud return fun for time;
+                String type = radioButton.getText().toString();
+                //replace 10 with date and time
+                Trip trip = new Trip(name,end,"10","10","type");
+                add(trip);
+            }
+        });
+
         textView = findViewById(R.id.textView17);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,4 +122,25 @@ TextView textView;
             }
         });
     }
+    public  void checkedRadioButton(View view){
+        int radiobtn = radioGroup.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(radiobtn);
+    }
+    public void add(Trip trip){
+        // Add a new document with a generated ID
+        db.collection("trip")
+                .add(trip)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "failed in add Trip", Toast.LENGTH_SHORT).show();
+                    }
+    });
+}
 }

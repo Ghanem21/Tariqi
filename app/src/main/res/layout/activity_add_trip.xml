@@ -18,7 +18,7 @@
         android:textSize="20dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edt_trip_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -37,7 +37,7 @@
         android:textSize="20dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/edt_start_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -57,7 +57,7 @@
         android:textSize="20dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/edt_end_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -107,24 +107,28 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="One Way"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:onClick="checkedRadioButton"/>
 
         <RadioButton
             android:id="@+id/radia_id2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Round Trip"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:onClick="checkedRadioButton"/>
 
     </RadioGroup>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_add_trip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@drawable/button"
+        android:gravity="center"
         android:text="@string/addtip"
+        android:textAllCaps="true"
         android:textColor="@drawable/button_text_color"
         android:textSize="20sp" />
 
