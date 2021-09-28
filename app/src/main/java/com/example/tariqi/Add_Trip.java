@@ -58,7 +58,7 @@ TextView textView;
                 //String time = mahmoud return fun for time;
                 String type = radioButton.getText().toString();
                 //replace 10 with date and time
-                Trip trip = new Trip(name,end,"10","10","type");
+                Trip trip = new Trip(name,end,"10","10",type);
                 add(trip);
             }
         });
