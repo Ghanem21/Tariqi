@@ -15,7 +15,6 @@
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_weight="1"
-        android:scaleType="center"
         app:srcCompat="@drawable/txtlogo" />
 
     <TextView
