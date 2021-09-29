@@ -54,8 +54,8 @@ TextView textView;
                 String name = tripName.getText().toString();
                 String start = startPoint.getText().toString();
                 String end = endPoint.getText().toString();
-                //String date = mahmoud return fun for date;
-                //String time = mahmoud return fun for time;
+                //String date = mahmoud return func for date;
+                //String time = mahmoud return func for time;
                 String type = radioButton.getText().toString();
                 //replace 10 with date and time
                 Trip trip = new Trip(name,end,"10","10",type);
