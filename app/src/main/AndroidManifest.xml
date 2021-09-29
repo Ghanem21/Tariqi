@@ -20,7 +20,15 @@
             android:exported="true" />
         <activity
             android:name=".History"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/history"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".splash_screen"
@@ -36,11 +44,7 @@
 
             android:label="@string/sign_up" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Sign_Up"
