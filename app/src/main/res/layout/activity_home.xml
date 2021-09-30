@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Home"
-    tools:openDrawer="start"
-    android:fitsSystemWindows="true">
+    tools:openDrawer="start">
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/home_navigation_drawer"
@@ -18,8 +17,7 @@
         app:menu="@menu/navigation_menu"
         app:itemIconTint="@color/green"
         app:itemTextColor="@color/black"
-        app:headerLayout="@layout/menu_header"
-        android:fitsSystemWindows="true">
+        app:headerLayout="@layout/menu_header">
 
     </com.google.android.material.navigation.NavigationView>
     <RelativeLayout
