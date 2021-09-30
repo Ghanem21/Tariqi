@@ -3,31 +3,32 @@ package com.example.tariqi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import java.util.ArrayList;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
-public class home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ListView listView;
     private HomeAdapter adapter;
     private ImageButton add;
+    private NavigationView navigationView;
+    Toolbar toolbar;
     String[] names , locations , dates , times , types;
     Trip[] trips;
 
@@ -39,10 +40,12 @@ public class home extends AppCompatActivity {
         add = (ImageButton) findViewById(R.id.home_add_btn);
 
         //custm toolbar to make drawer over toolbar
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.new_toolbar);
+        toolbar = findViewById(R.id.new_toolbar);
         setSupportActionBar(toolbar);
         //navigation slideable toggle button
+        navigationView = findViewById(R.id.home_navigation_drawer);
         drawerLayout = findViewById(R.id.drawer);
+        navigationView.bringToFront();
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -68,9 +71,10 @@ public class home extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"it work",Toast.LENGTH_SHORT).show();
             }
         });
+        navigationView.setNavigationItemSelectedListener(this);
+
         registerForContextMenu(listView);
     }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu,v,menuInfo);
@@ -101,6 +105,30 @@ public class home extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
        if(drawerToggle.onOptionsItemSelected(item))
            return true;
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_home:
+                startActivity(new Intent(getApplicationContext(), Home.class));
+                finish();
+                break;
+            case R.id.menu_history:
+                startActivity(new Intent(getApplicationContext(), History.class));
+                finish();
+                break;
+        }
         return true;
     }
 }

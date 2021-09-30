@@ -1,6 +1,7 @@
 package com.example.tariqi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,4 +40,12 @@ public class History extends AppCompatActivity {
         recyclerView.setAdapter(adapterHistoy);
         adapterHistoy.notifyDataSetChanged();
     }
+    /*@Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }*/
 }
