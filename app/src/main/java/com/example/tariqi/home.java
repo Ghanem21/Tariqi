@@ -51,12 +51,12 @@ public class home extends AppCompatActivity {
 
         //create Listview
         listView = findViewById(R.id.home_listview);
-        names = new String[]{"Trip 1" , "Trip 2"};
-        locations = new String[]{"Alex" , "Cairo"};
-        dates = new String[]{"10/12" , "1/10"};
-        times = new String[]{"10:30" , "00:00"};
-        types = new String[]{"one way" , "one way"};
-        trips = new Trip[2];
+        names = new String[]{"Trip 1" , "Trip 2" , "Trip 2"};
+        locations = new String[]{"Alex" , "Cairo" , "Demo"};
+        dates = new String[]{"10/12" , "1/10" , "15/10"};
+        times = new String[]{"10:30" , "00:00" , "20:10"};
+        types = new String[]{"one way" , "one way" , "round trip"};
+        trips = new Trip[3];
         for (int i = 0;i < names.length;i++)
             trips[i] = new Trip(names[i],locations[i],dates[i],times[i],types[i]);
         adapter = new HomeAdapter(getApplicationContext(),R.layout.home_list_view_layout,trips);
