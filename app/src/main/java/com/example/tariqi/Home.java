@@ -24,13 +24,13 @@ import com.google.android.material.navigation.NavigationView.OnNavigationItemSel
 public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
     private ListView listView;
     private HomeAdapter adapter;
     private ImageButton add;
-    private NavigationView navigationView;
-    Toolbar toolbar;
-    String[] names , locations , dates , times , types;
-    Trip[] trips;
+    private String[] names , locations , dates , times , types;
+    private Trip[] trips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,9 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         setSupportActionBar(toolbar);
         //navigation slideable toggle button
         navigationView = findViewById(R.id.home_navigation_drawer);
-        drawerLayout = findViewById(R.id.drawer);
         navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout = findViewById(R.id.drawer);
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -71,7 +72,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 Toast.makeText(getApplicationContext(),"it work",Toast.LENGTH_SHORT).show();
             }
         });
-        navigationView.setNavigationItemSelectedListener(this);
+
 
         registerForContextMenu(listView);
     }
@@ -121,8 +122,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_home:
-                startActivity(new Intent(getApplicationContext(), Home.class));
-                finish();
+                Toast.makeText(getApplicationContext(), "We are in Home", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_history:
                 startActivity(new Intent(getApplicationContext(), History.class));
