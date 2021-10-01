@@ -193,7 +193,7 @@ public class Sign_Up extends AppCompatActivity {
                     Toast.makeText(Sign_Up.this, "Existing User.."+emailgoogle, Toast.LENGTH_SHORT).show();
 
                 }
-                Intent homeIntent= new Intent(Sign_Up.this,History.class);
+                Intent homeIntent= new Intent(Sign_Up.this,Home.class);
                 startActivity(homeIntent);
                 finish();
             }

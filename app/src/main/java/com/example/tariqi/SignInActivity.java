@@ -135,7 +135,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){ Toast.makeText(SignInActivity.this, "User logged is successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(SignInActivity.this,History.class));
+                            startActivity(new Intent(SignInActivity.this,Home.class));
                             progressBar.setVisibility(View.GONE);
                         }
                         else {
