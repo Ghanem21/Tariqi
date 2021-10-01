@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "219834984630",
+    "project_id": "tariqi-609d8",
+    "storage_bucket": "tariqi-609d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219834984630:android:7cc29894eb23ff4920de17",
+        "android_client_info": {
+          "package_name": "com.example.tariqi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,5 +21,9 @@
     <string name="date_history">date</string>
     <string name="note_history">notes</string>
     <string name="delete_trip">Delete Trip</string>
+    <string name="Forget_Password">Forget Password ?</string>
+    <string name="facebook_app_id">1265402910597955</string>
+    <string name="fb_login_protocol_scheme">fb1265402910597955</string>
+
 
 </resources>

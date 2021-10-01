@@ -13,7 +13,7 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="176dp"
+        android:layout_width="160dp"
         android:layout_height="119dp"
         android:layout_weight="4"
         app:srcCompat="@drawable/txtlogo" />
@@ -24,11 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_weight=".09"
         android:text="@string/signin1"
-        android:textSize="34sp" />
+        android:textColor="@color/black"
+        android:textSize="25sp" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sign_up_mail_edittext2"
-        android:layout_width="310dp"
+        android:id="@+id/sign_In_mail_edittext"
+        android:layout_width="300dp"
         android:layout_height="6dp"
         android:layout_weight="3"
         android:drawableStart="@drawable/ic_email"
@@ -36,8 +37,8 @@
         android:hint="@string/mail" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sign_up_password_edittext2"
-        android:layout_width="310dp"
+        android:id="@+id/sign_In_password_edittext"
+        android:layout_width="300dp"
         android:layout_height="6dp"
         android:layout_weight="3"
         android:drawableStart="@android:drawable/ic_lock_lock"
@@ -45,20 +46,37 @@
         android:inputType="textPassword" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txtForgetPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_weight="1"
-        android:text="@string/forgetpassword"
+        android:text="@string/Forget_Password"
+        android:textColor="@color/black"
         android:textSize="16sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btnSignin"
-        android:layout_width="310dp"
-        android:layout_height="6dp"
+        android:layout_width="250dp"
+        android:layout_height="3dp"
         android:layout_weight="3"
         android:background="@drawable/button"
         android:text="@string/signin1"
@@ -72,42 +90,45 @@
         android:layout_marginTop="19dp"
         android:layout_marginBottom="15dp"
         android:text="@string/orsignin"
-        android:textSize="24sp" />
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal"
         android:weightSum="3">
-
         <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="125dp"
-            android:layout_height="52dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/facebook" />
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="98dp"
-            android:layout_height="match_parent"
+            android:id="@+id/googleSignIn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/google" />
 
         <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="126dp"
-            android:layout_height="match_parent"
+            android:id="@+id/faceboofSignIn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/facebook" />
+
+
+
+        <ImageView
+            android:id="@+id/twiterSignIn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/twitter" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/txtSignUpPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/donthaveaccount1" />
+        android:text="@string/donthaveaccount1"
+        android:textColor="@color/black" />
 
 </LinearLayout>

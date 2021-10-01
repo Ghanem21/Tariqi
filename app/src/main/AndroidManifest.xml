@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tariqi" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.tariqi">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:allowBackup="true"
@@ -8,7 +12,14 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo2"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Tariqi" >
+        android:theme="@style/Theme.Tariqi">
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+
+        <activity
+            android:name=".TwitterActivity"
+            android:exported="true" />
         <activity
             android:name=".ItemHistory"
             android:exported="true" />
@@ -17,20 +28,20 @@
             android:exported="true" />
         <activity
             android:name=".splash_screen"
-            android:exported="true" />
-        <activity
-            android:name=".SignInActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Sign_Up"
             android:exported="true"
-            android:label="@string/sign_up" >
+            android:label="Tariqi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SignInActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Sign_Up"
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
