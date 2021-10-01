@@ -73,7 +73,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/addtrip_tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -83,7 +83,7 @@
             android:textSize="30dp" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/addtrip_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
