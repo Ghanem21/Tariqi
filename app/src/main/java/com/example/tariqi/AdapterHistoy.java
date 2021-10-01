@@ -34,8 +34,14 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
     public void onBindViewHolder(@NonNull AdapterHistoy.ViewHolder holder, int position) {
         holder.tripname.setText(dataList.get(position).getTripName());
 
-
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentItem=new Intent(v.getContext(),ItemHistory.class);
+                intentItem.putExtra("tripname",dataList.get(position).getTripName());
+                v.getContext().startActivity(intentItem);
+            }
+        });
     }
 
     @Override

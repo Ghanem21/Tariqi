@@ -34,6 +34,8 @@ public class TwitterActivity extends SignInActivity {
                                 public void onSuccess(AuthResult authResult) {
                                     startActivity(new Intent(TwitterActivity.this,History.class));
                                     Toast.makeText(TwitterActivity.this, "log in successfil", Toast.LENGTH_SHORT).show();
+                                    Intent homeIntent= new Intent(TwitterActivity.this,History.class);
+                                    startActivity(homeIntent);
                                 }
                             })
                     .addOnFailureListener(
@@ -54,12 +56,6 @@ public class TwitterActivity extends SignInActivity {
                                     startActivity(new Intent(TwitterActivity.this,History.class));
                                     Toast.makeText(TwitterActivity.this, "log in successfil", Toast.LENGTH_SHORT).show();
                                 }
-                            })
-                    .addOnFailureListener(
-                            new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(TwitterActivity.this, "log in faild", Toast.LENGTH_SHORT).show();                                }
                             });
         }
     }
