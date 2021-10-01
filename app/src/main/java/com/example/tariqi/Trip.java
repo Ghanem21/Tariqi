@@ -2,12 +2,14 @@ package com.example.tariqi;
 
 
 public class Trip {
-    private String name;
-    private String location;
-    private String date;
-    private String time;
-    private String type;
-    private String startPoint;
+     String name;
+     String location;
+     String date;
+     String time;
+     String type;
+     String startPoint;
+
+    public Trip() {}
 
     public Trip(String name, String location, String date, String time, String type) {
         this.name = name;

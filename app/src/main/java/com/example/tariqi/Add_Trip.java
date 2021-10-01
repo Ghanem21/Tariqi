@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -63,7 +64,7 @@ TextView textView;
             }
         });
 
-        textView = findViewById(R.id.textView17);
+        textView = findViewById(R.id.addtrip_tv_time);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +86,7 @@ TextView textView;
         final Calendar myCalendar = Calendar.getInstance();
 
 
-        TextView edittext= (TextView) findViewById(R.id.textView16);
+        TextView edittext= (TextView) findViewById(R.id.addtrip_tv_date);
 
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -134,6 +135,8 @@ TextView textView;
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getApplicationContext(),home.class);
+                        startActivity(i);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
