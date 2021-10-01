@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="65dp"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".Add_Trip">
 
     <TextView
@@ -43,7 +44,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:drawableLeft="@drawable/quantum_ic_search_grey600_24"
+        android:drawableLeft="@drawable/search"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -63,7 +64,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:drawableLeft="@drawable/quantum_ic_search_grey600_24"
+        android:drawableLeft="@drawable/search"
         android:ems="10"
         android:inputType="textPersonName" />
 

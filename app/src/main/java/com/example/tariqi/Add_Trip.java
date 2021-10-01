@@ -135,7 +135,7 @@ TextView textView;
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(),home.class);
+                        Intent i = new Intent(getApplicationContext(),Home.class);
                         startActivity(i);
                     }
                 })

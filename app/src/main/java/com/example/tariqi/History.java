@@ -29,8 +29,6 @@ public class History extends AppCompatActivity implements NavigationView.OnNavig
     private ActionBarDrawerToggle drawerToggle;
  List<DataTrip>dataList;
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ListView listView;

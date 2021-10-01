@@ -117,7 +117,7 @@ public class Sign_Up extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Sign_Up.this, "register is done successfuly ", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
-                                        startActivity(new Intent(Sign_Up.this,History.class));
+                                        startActivity(new Intent(Sign_Up.this,Home.class));
                                     }
                                     else {
                                         Toast.makeText(Sign_Up.this, "Faild to register ! please try again", Toast.LENGTH_SHORT).show();

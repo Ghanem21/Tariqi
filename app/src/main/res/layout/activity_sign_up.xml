@@ -12,9 +12,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="176dp"
-        android:layout_height="119dp"
-        android:layout_weight="4"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_weight="1"
         app:srcCompat="@drawable/txtlogo" />
 
     <TextView
@@ -80,34 +80,25 @@
             android:layout_height="45dp"
             android:drawableStart="@android:drawable/ic_lock_lock"
             android:hint="@string/confirm_password"
-             />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_weight="1"
         android:background="@drawable/button"
         android:text="@string/sign_up"
         android:textColor="@drawable/button_text_color"
+android:gravity="center"
         android:textSize="20sp" />
 
     <TextView
@@ -165,7 +156,7 @@
             android:paddingEnd="5dp"
             android:text="@string/have_account"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/txtSignInPage"
@@ -174,6 +165,6 @@
             android:layout_weight="1"
             android:text="@string/sign_in"
             android:textColor="@color/green"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>
