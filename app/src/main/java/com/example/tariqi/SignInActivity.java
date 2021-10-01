@@ -59,6 +59,7 @@ public class SignInActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         emailSignIn=findViewById(R.id.sign_In_mail_edittext);
         passSignIn=findViewById(R.id.sign_In_password_edittext);
