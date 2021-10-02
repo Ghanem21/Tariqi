@@ -10,22 +10,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentChange;
@@ -41,7 +35,7 @@ import com.google.android.material.navigation.NavigationView.OnNavigationItemSel
 public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private ImageButton add;
+    private ImageButton add ;
     private NavigationView navigationView;
     private Toolbar toolbar;
     RecyclerView recyclerView;
@@ -99,6 +93,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         adapter = new HomeAdapter(getApplicationContext(),R.layout.home_list_view_layout,trips);
         listView.setAdapter(adapter);
 */
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

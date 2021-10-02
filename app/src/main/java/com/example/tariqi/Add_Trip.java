@@ -36,7 +36,7 @@ TextView textView;
     Button addTrip;
     RadioGroup radioGroup;
     RadioButton radioButton;
-
+    TextView date_tv , time_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,8 @@ TextView textView;
         endPoint = (EditText)findViewById(R.id.edt_end_point);
         addTrip = (Button)findViewById(R.id.btn_add_trip);
         radioGroup = (RadioGroup) findViewById(R.id.groupradio);
+        date_tv = findViewById(R.id.addtrip_tv_date);
+        time_tv = findViewById(R.id.addtrip_tv_time);
 
         addTrip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,11 +57,11 @@ TextView textView;
                 String name = tripName.getText().toString();
                 String start = startPoint.getText().toString();
                 String end = endPoint.getText().toString();
-                //String date = mahmoud return func for date;
-                //String time = mahmoud return func for time;
+                String date = date_tv.getText().toString();
+                String time = time_tv.getText().toString();
                 String type = radioButton.getText().toString();
                 //replace 10 with date and time
-                Trip trip = new Trip(name,end,"10","10",type);
+                Trip trip = new Trip(name,end,date,time,type);
                 add(trip);
             }
         });

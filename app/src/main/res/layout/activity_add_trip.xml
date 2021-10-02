@@ -44,7 +44,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:drawableLeft="@drawable/search"
+
+        android:drawableStart="@drawable/quantum_ic_search_grey600_24"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -64,7 +65,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:drawableLeft="@drawable/search"
+        android:drawableStart="@drawable/quantum_ic_search_grey600_24"
         android:ems="10"
         android:inputType="textPersonName" />
 

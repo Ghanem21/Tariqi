@@ -3,13 +3,11 @@ package com.example.tariqi;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,7 +112,7 @@ public class HomeAdapter extends ArrayAdapter {
 
         public ImageButton getNote() {
             if (note == null)
-                note = (ImageButton) convertView.findViewById(R.id.imageView_note);
+                note = (ImageButton) convertView.findViewById(R.id.imageButton_note);
             return note;
         }
     }

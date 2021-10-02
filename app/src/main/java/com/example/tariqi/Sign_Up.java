@@ -60,6 +60,7 @@ public class Sign_Up extends AppCompatActivity {
         googleSignUp=findViewById(R.id.googleSignUp);
         facebookSignUp=findViewById(R.id.facebookSignUp);
         twiterSignUp=findViewById(R.id.twetterSignUp);
+        progressBar.setVisibility(View.GONE);
         //to go to signin page
         sginintxt.setOnClickListener(new View.OnClickListener() {
             @Override
