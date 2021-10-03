@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:orientation="vertical">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/header_background"
-        android:scaleType="matrix"/>
-    <ImageView
+        android:scaleType="matrix"
+        android:src="@drawable/header_background" />
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/menu_img"
         android:layout_width="81dp"
         android:layout_height="75dp"
-        android:layout_margin="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/traveling_icon"
-        android:padding="8dp"
         android:src="@drawable/traveling" />
 
     <TextView
@@ -26,4 +30,6 @@
         android:textSize="20sp"
         android:textStyle="bold|italic"
         android:layout_below="@id/menu_img"/>
+
+
 </RelativeLayout>

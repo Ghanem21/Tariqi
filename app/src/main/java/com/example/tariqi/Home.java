@@ -10,27 +10,43 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -43,7 +59,9 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     MyAdabter adapter ;
     FirebaseFirestore db;
     ProgressDialog progressDialog;
-
+    CircularImageView userImg;
+    StorageReference reference;
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,20 +97,18 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        //create Listview
-       /* listView = findViewById(R.id.home_listview);
-        names = new String[]{"Trip 1" , "Trip 2"};
-        locations = new String[]{"Alex" , "Cairo"};
-        dates = new String[]{"10/12" , "1/10"};
-        times = new String[]{"10:30" , "00:00"};
-        types = new String[]{"one way" , "one way"};
-        trips = new Trip[2];
-        for (int i = 0;i < names.length;i++)
-            trips[i] = new Trip(names[i],locations[i],dates[i],times[i],types[i]);
-        adapter = new HomeAdapter(getApplicationContext(),R.layout.home_list_view_layout,trips);
-        listView.setAdapter(adapter);
-*/
+        reference = FirebaseStorage.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
+        StorageReference storage = reference.child(auth.getCurrentUser().getEmail() + "/profile.jpg");
+        storage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                userImg = (CircularImageView) findViewById(R.id.menu_img);
+                userImg.setBackground(null);
+                Picasso.get().load(uri).placeholder(R.drawable.traveling).into(userImg);
+                //userImg.setImageURI(uri);
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +118,42 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
             }
         });
         registerForContextMenu(recyclerView);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == Activity.RESULT_OK)
+        {
+            Uri uri = data.getData();
+            userImg = (CircularImageView) findViewById(R.id.menu_img);
+            userImg.setBackground(null);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                Bitmap b = Bitmap.createScaledBitmap(bitmap, 700, 700, false);
+                uri = getImageUri(getApplicationContext(),b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //userImg.setImageURI(uri);
+            upLoadImage(uri);
+        }
+    }
+
+    private void upLoadImage(Uri uri) {
+        StorageReference storage = reference.child(auth.getCurrentUser().getEmail() + "/profile.jpg");
+        storage.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Picasso.get().load(uri).placeholder(R.drawable.traveling).into(userImg);
+                Toast.makeText(getApplicationContext(), "upload done", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void EventChangeListener() {
@@ -181,7 +233,16 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 startActivity(new Intent(getApplicationContext(), History.class));
                 finish();
                 break;
+            case R.id.menu_set_profile_pic:
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,100);
         }
         return true;
+    }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }
