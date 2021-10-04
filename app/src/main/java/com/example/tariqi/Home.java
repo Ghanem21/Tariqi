@@ -48,7 +48,7 @@ import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener ,DialogFragment.PositiveClickListener{
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ImageButton add ;
@@ -192,7 +192,8 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_add_note:
-                Toast.makeText(getApplicationContext(), "Add note", Toast.LENGTH_SHORT).show();
+                DialogFragment dialogFragment = new DialogFragment();
+                dialogFragment.show(getSupportFragmentManager(),null);
                 return true;
             case R.id.menu_cancel:
                 Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
@@ -244,5 +245,10 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    @Override
+    public void onPositiveButtonCliced(String note) {
+        Toast.makeText(getApplicationContext(), note, Toast.LENGTH_SHORT).show();
     }
 }
