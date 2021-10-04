@@ -190,6 +190,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()){
             case R.id.menu_add_note:
                 DialogFragment dialogFragment = new DialogFragment();
