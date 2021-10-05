@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -31,7 +32,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.chromium.base.Log;
 
 public class Sign_Up extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -118,6 +118,10 @@ public class Sign_Up extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Sign_Up.this, "register is done successfuly ", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
+                                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile",0);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putBoolean("hasLoggedIn",true);
+                                        editor.commit();
                                         startActivity(new Intent(Sign_Up.this,Home.class));
                                     }
                                     else {

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,9 +38,9 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 
 
-import org.chromium.base.Log;
 
 public class SignInActivity extends AppCompatActivity {
+    public static  String PREFS_NAME = "MyPrefsFile";
     private TextView signUp,forgetPassword;
     private Button btnsignIn;
     private EditText emailSignIn,passSignIn;
@@ -137,6 +138,10 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()){ Toast.makeText(SignInActivity.this, "User logged is successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignInActivity.this,Home.class));
                             progressBar.setVisibility(View.GONE);
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile",0);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("hasLoggedIn",true);
+                            editor.commit();
                         }
                         else {
                             Toast.makeText(SignInActivity.this, " log in Error"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();

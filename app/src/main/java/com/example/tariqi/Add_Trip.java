@@ -1,5 +1,6 @@
 package com.example.tariqi;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
 
 import android.view.View;
 
@@ -19,16 +21,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
+
 import java.util.Locale;
 
-public class Add_Trip extends AppCompatActivity {
+public class Add_Trip<savedInstanceState> extends AppCompatActivity {
 TextView textView;
     //ghanem add for datebase
     FirebaseFirestore db;
@@ -37,6 +43,7 @@ TextView textView;
     RadioGroup radioGroup;
     RadioButton radioButton;
     TextView date_tv , time_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,10 @@ TextView textView;
         radioGroup = (RadioGroup) findViewById(R.id.groupradio);
         date_tv = findViewById(R.id.addtrip_tv_date);
         time_tv = findViewById(R.id.addtrip_tv_time);
+
+
+
+
 
         addTrip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,4 +159,6 @@ TextView textView;
                     }
     });
 }
+
+
 }

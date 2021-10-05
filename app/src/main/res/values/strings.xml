@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Tariqi</string>
     <string name="sign_up">Sign Up</string>
+    <string name="google_maps_key">AIzaSyCJQeRYQRUec_Y2Z3P8KyWG2uEGhR41jDs</string>
     <string name="mail">Mail</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
