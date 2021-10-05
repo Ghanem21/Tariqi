@@ -124,6 +124,10 @@ public class Sign_Up extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Sign_Up.this, "register is done successfuly ", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
+                                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile",0);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putBoolean("hasLoggedIn",true);
+                                        editor.commit();
                                         SharedPreferences.Editor editor= sp.edit();
                                         editor.putString("uid",uid);
                                         editor.commit();

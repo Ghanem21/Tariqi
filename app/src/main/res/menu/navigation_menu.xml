@@ -12,9 +12,9 @@
     </group>
     <item android:title="Others">
         <menu>
-            <item android:id="@+id/menu_sync"
+            <item android:id="@+id/menu_set_profile_pic"
                 android:icon="@drawable/sync"
-                android:title="@string/sync"/>
+                android:title="set profile pic"/>
             <item android:id="@+id/menu_log_out"
                 android:icon="@drawable/logout"
                 android:title="@string/log_out"/>
