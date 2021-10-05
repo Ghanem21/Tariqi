@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -39,12 +40,13 @@ public class Sign_Up extends AppCompatActivity {
     private EditText editTextEmail,editTextPass,editTextConfirmPass;
     private ProgressBar  progressBar;
     private Button signupButton;
-    String email,password,confirmpass;
+    String email,password,confirmpass,uid,name, location, date,time, type,upcomingid,doneid;
     private ImageView googleSignUp,facebookSignUp,twiterSignUp;
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         progressDialog= new ProgressDialog(this);
@@ -61,6 +63,8 @@ public class Sign_Up extends AppCompatActivity {
         facebookSignUp=findViewById(R.id.facebookSignUp);
         twiterSignUp=findViewById(R.id.twetterSignUp);
         progressBar.setVisibility(View.GONE);
+        sp=getSharedPreferences("UserPrefrence",MODE_PRIVATE);
+
         //to go to signin page
         sginintxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,14 +114,19 @@ public class Sign_Up extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            User user= new User(email,password);
-                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            uid=task.getResult().getUser().getUid();
+                           // User user= new User(email,password,uid,name,location,date,time,type);
+                            Trip trip= new Trip(name,location,date,time,type,uid,email,password,upcomingid,doneid);
+                            FirebaseDatabase.getInstance().getReference("Users").child(uid)
+                                    .setValue(trip).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Sign_Up.this, "register is done successfuly ", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
+                                        SharedPreferences.Editor editor= sp.edit();
+                                        editor.putString("uid",uid);
+                                        editor.commit();
                                         startActivity(new Intent(Sign_Up.this,Home.class));
                                     }
                                     else {

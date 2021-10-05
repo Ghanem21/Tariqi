@@ -46,7 +46,10 @@
     <string name="Forget_Password">Forget Password ?</string>
     <string name="facebook_app_id">1265402910597955</string>
     <string name="fb_login_protocol_scheme">fb1265402910597955</string>
-
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">AH65iIRMfX2Z9HAhVw1RAfu5K</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">ykyiONGtX6kr10XFwfe2hGAU5vLPdGnE9SMZgiP4iBT70jE1eQ</string>
+    <string name="delet_trip">Delet Trip</string>
+    <string name="showless">Show Less</string>
 
 
 </resources>

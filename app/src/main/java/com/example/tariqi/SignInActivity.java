@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsAnimation;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,13 +33,24 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.TwitterAuthProvider;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-
-
-
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 
 import org.chromium.base.Log;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView signUp,forgetPassword;
@@ -51,12 +64,13 @@ public class SignInActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1000;
     private GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
+    TwitterAuthClient twitterAuthClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         progressDialog= new ProgressDialog(this);
-
+        Twitter.initialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
@@ -169,6 +183,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        //signin with twitter
         twiterSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +194,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
     }
-
+//google
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -227,6 +242,5 @@ public class SignInActivity extends AppCompatActivity {
         });
 
     }
-
 
 }

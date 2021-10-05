@@ -28,17 +28,95 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_margin="10dp"
-            app:srcCompat="@drawable/logo2" />
+            app:srcCompat="@drawable/logo2"
+            />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/txtlocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/txtdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/txttime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/txttype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtnote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="#2E856E"
             android:text="@string/details_item"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"/>
+
+
+
+        <TextView
+            android:id="@+id/less"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#2E856E"
+            android:text="@string/showless"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            tools:ignore="DuplicateIds"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:id="@+id/txtdelet"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="#2E856E"
+            android:text="@string/delet_trip"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:visibility="gone"
+           />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

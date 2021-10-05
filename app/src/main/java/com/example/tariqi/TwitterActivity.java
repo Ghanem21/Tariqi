@@ -48,12 +48,12 @@ public class TwitterActivity extends SignInActivity {
                     );
         } else {
             firebaseAuth
-                    .startActivityForSignInWithProvider(/* activity= */ this, provider.build())
+                    .startActivityForSignInWithProvider(TwitterActivity.this, provider.build())
                     .addOnSuccessListener(
                             new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    startActivity(new Intent(TwitterActivity.this,History.class));
+                                    startActivity(new Intent(TwitterActivity.this,Home.class));
                                     Toast.makeText(TwitterActivity.this, "log in successfil", Toast.LENGTH_SHORT).show();
                                 }
                             });

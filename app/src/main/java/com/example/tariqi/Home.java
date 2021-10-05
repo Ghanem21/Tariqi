@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -22,6 +24,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,16 +50,20 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     MyAdabter adapter ;
     FirebaseFirestore db;
     ProgressDialog progressDialog;
+    private FirebaseDatabase FD=FirebaseDatabase.getInstance();
+    private DatabaseReference DR;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("fetching Data ...");
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setCancelable(true);
+//        progressDialog.setMessage("fetching Data ...");
+//        progressDialog.show();
+
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -60,9 +71,31 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         db = FirebaseFirestore.getInstance();
         tripArrayList = new ArrayList<Trip>();
         adapter = new MyAdabter(Home.this,tripArrayList);
-
         recyclerView.setAdapter(adapter);
-        EventChangeListener();
+
+        sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
+        String tripuid=sp.getString("uid","");
+
+        DR=FD.getReference().child("Users").child(tripuid).child("upcomingtrip");
+
+        // add trip from realtime database
+        DR.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    Trip trip=dataSnapshot.getValue(Trip.class);
+                    tripArrayList.add(trip);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+      //  EventChangeListener();
 
         add = (ImageButton) findViewById(R.id.home_add_btn);
 
@@ -104,6 +137,8 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         registerForContextMenu(recyclerView);
     }
 
+
+/*
     private void EventChangeListener() {
         db.collection("trip")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -127,7 +162,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                         }
                     }
                 });
-    }
+    }*/
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

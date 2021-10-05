@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.view.View;
 
 import android.widget.Button;
@@ -19,13 +23,21 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class Add_Trip extends AppCompatActivity {
@@ -37,10 +49,16 @@ TextView textView;
     RadioGroup radioGroup;
     RadioButton radioButton;
     TextView date_tv , time_tv;
+    String email,password,uid,name, location, date,time, type,upcomingid,doneid;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
+        //realtime database
+        sp=getSharedPreferences("UserPrefrence",MODE_PRIVATE);
+
+
         //ghanem add for datebase
         db = FirebaseFirestore.getInstance();
         tripName = (EditText)findViewById(R.id.edt_trip_name);
@@ -61,8 +79,27 @@ TextView textView;
                 String time = time_tv.getText().toString();
                 String type = radioButton.getText().toString();
                 //replace 10 with date and time
-                Trip trip = new Trip(name,end,date,time,type);
+
+                Trip trip = new Trip(name,end,date,time,type,uid,email,password,upcomingid,doneid);
                 add(trip);
+
+
+                //realtime database (rahma)
+                HashMap<String,String> userMap= new HashMap<>();
+                userMap.put("name",name);
+                userMap.put("start",start);
+                userMap.put("end",end);
+                userMap.put("date",date);
+                userMap.put("time",time);
+                userMap.put("type",type);
+
+
+
+                sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
+                String tripuid=sp.getString("uid","");
+                FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("upcomingtrip").child(name).setValue(userMap);
+
+
             }
         });
 
@@ -136,6 +173,7 @@ TextView textView;
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        System.out.println( upcomingid);
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(),Home.class);
                         startActivity(i);

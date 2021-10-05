@@ -8,15 +8,78 @@ public class Trip {
      String time;
      String type;
      String startPoint;
+    String email,password,uid,upcomingid,doneid;
+    String note;
+    public Trip(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public Trip() {}
 
-    public Trip(String name, String location, String date, String time, String type) {
+    public Trip(String name) {
+        this.name = name;
+    }
+
+    public Trip(String name, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ) {
         this.name = name;
         this.location = location;
         this.date = date;
         this.time = time;
         this.type = type;
+        this.uid=uid;
+        this.email = email;
+        this.password = password;
+        this.upcomingid=upcomingid;
+        this.doneid=doneid;
+    }
+
+    public String getUpcomingid() {
+        return upcomingid;
+    }
+
+    public void setUpcomingid(String upcomingid) {
+        this.upcomingid = upcomingid;
+    }
+
+    public String getDoneid() {
+        return doneid;
+    }
+
+    public void setDoneid(String doneid) {
+        this.doneid = doneid;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getStartPoint() {

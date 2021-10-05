@@ -1,10 +1,13 @@
 package com.example.tariqi;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.sip.SipSession;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends ArrayAdapter {
     Context context;
@@ -47,7 +51,10 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Start Trip", Toast.LENGTH_SHORT).show();
-            }
+
+                }
+
+
         });
         viewHolder.getNote().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,16 +77,15 @@ public class HomeAdapter extends ArrayAdapter {
         ImageButton note;
         Button start;
 
+        public ViewHolder(View convertView) {
+            this.convertView = convertView;
+        }
+
         public Button getStart() {
             if(start == null)
                 start = convertView.findViewById(R.id.btn_start);
             return start;
         }
-
-        public ViewHolder(View convertView) {
-            this.convertView = convertView;
-        }
-
         public TextView getName() {
             if (name == null)
                 name = (TextView) convertView.findViewById(R.id.tv_trip_name);
