@@ -25,6 +25,7 @@ import java.util.HashMap;
 public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     Context context;
     ArrayList<Trip> tripArrayList;
+    int position;
     SharedPreferences sp;
 
     public MyAdabter(Context context, ArrayList<Trip> tripArrayList) {
@@ -83,7 +84,10 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     public int getItemCount() {
         return tripArrayList.size();
     }
-    public static class MyViewholder extends RecyclerView.ViewHolder{
+
+
+
+    public static class MyViewholder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
 
         TextView tripname,location,date,time,typetrip;
         Button start;
@@ -115,11 +119,23 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                     dialog.create().show();
                 }
             });
-
-
-
-
-
+            itemView.setOnCreateContextMenuListener(this);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Select an option");
+            menu.add(this.getAdapterPosition(), 120,0,"Add Note");
+            menu.add(this.getAdapterPosition(), 121,1,"Edit");
+            menu.add(this.getAdapterPosition(), 122,2,"Delete");
+            menu.add(this.getAdapterPosition(), 123,3,"Cancel");
+        }
+    }
+    public void removeItem(int position){
+        tripArrayList.remove(position);
+        notifyDataSetChanged();
+    }
+    public String getNote(int position){
+        return tripArrayList.get(position).getName();
     }
 }
