@@ -117,6 +117,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 startActivity(i);
             }
         });
+
         registerForContextMenu(recyclerView);
     }
 
@@ -130,7 +131,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
             userImg.setBackground(null);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                Bitmap b = Bitmap.createScaledBitmap(bitmap, 700, 700, false);
+                Bitmap b = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
                 uri = getImageUri(getApplicationContext(),b);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -181,28 +182,28 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 });
     }
 
-    @Override
+    /*@Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu,v,menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_list_view_menu,menu);
-    }
+    }*/
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menu_add_note:
-                DialogFragment dialogFragment = new DialogFragment();
+            case 120:
+                DialogFragment dialogFragment = new DialogFragment(item.getGroupId());
                 dialogFragment.show(getSupportFragmentManager(),null);
                 return true;
-            case R.id.menu_cancel:
+            case 121:
                 Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.menu_delete:
-                Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
+            case 122:
+                adapter.removeItem(item.getGroupId());
                 return true;
-            case R.id.menu_edit:
+            case 123:
                 Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
                 return true;
         }
@@ -249,7 +250,8 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     }
 
     @Override
-    public void onPositiveButtonCliced(String note) {
-        Toast.makeText(getApplicationContext(), note, Toast.LENGTH_SHORT).show();
+    public void onPositiveButtonCliced(String note,int position) {
+        String str =  adapter.getNote(position);
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 }

@@ -132,7 +132,7 @@ public class History extends AppCompatActivity implements NavigationView.OnNavig
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                Bitmap b = Bitmap.createScaledBitmap(bitmap, 700, 700, false);
+                Bitmap b = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
                 uri = getImageUri(getApplicationContext(),b);
             } catch (IOException e) {
                 e.printStackTrace();

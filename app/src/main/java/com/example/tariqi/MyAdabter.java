@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     Context context;
     ArrayList<Trip> tripArrayList;
-
+    int position;
     public MyAdabter(Context context, ArrayList<Trip> tripArrayList) {
         this.context = context;
         this.tripArrayList = tripArrayList;
@@ -30,13 +30,6 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     public MyAdabter.MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(context).inflate(R.layout.home_list_view_layout,parent,false);
-        v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-            }
-        });
-
         return new MyViewholder(v);
 
     }
@@ -54,13 +47,16 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
 
 
 
-    }
 
+    }
     @Override
     public int getItemCount() {
         return tripArrayList.size();
     }
-    public static class MyViewholder extends RecyclerView.ViewHolder{
+
+
+
+    public static class MyViewholder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
 
         TextView tripname,location,date,time,typetrip;
         ImageButton show_Note;
@@ -90,11 +86,23 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                     dialog.create().show();
                 }
             });
-
-
-
-
-
+            itemView.setOnCreateContextMenuListener(this);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Select an option");
+            menu.add(this.getAdapterPosition(), 120,0,"Add Note");
+            menu.add(this.getAdapterPosition(), 121,1,"Edit");
+            menu.add(this.getAdapterPosition(), 122,2,"Delete");
+            menu.add(this.getAdapterPosition(), 123,3,"Cancel");
+        }
+    }
+    public void removeItem(int position){
+        tripArrayList.remove(position);
+        notifyDataSetChanged();
+    }
+    public String getNote(int position){
+        return tripArrayList.get(position).getName();
     }
 }

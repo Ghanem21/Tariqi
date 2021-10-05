@@ -26,6 +26,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     private String message;
     private int icon;
     private PositiveClickListener positiveClickListener;
+    int position;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -41,16 +42,6 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         positiveClickListener = null;
     }
 
-//    public static DialogFragment newInstance(){
-//        Bundle bundle = new Bundle();
-//        bundle.putString(TITLE,title);
-//        bundle.putString(MESSAGE,message);
-//        bundle.putInt(ICON,icon);
-//        DialogFragment fragment = new DialogFragment();
-//        fragment.setArguments(bundle);
-//        return fragment;
-//    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +53,9 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         }
     }
 
-    public DialogFragment() {
+    public DialogFragment(int position) {
         // Required empty public constructor
+        this.position = position;
     }
     @Nullable
     @Override
@@ -76,16 +68,24 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button save = view.findViewById(R.id.save);
+        Button cancel = view.findViewById(R.id.cancel);
+
         EditText note = view.findViewById(R.id.edt_note);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                positiveClickListener.onPositiveButtonCliced(note.getText().toString());
+                positiveClickListener.onPositiveButtonCliced(note.getText().toString(),position);
+                dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dismiss();
             }
         });
     }
     public interface PositiveClickListener{
-        void onPositiveButtonCliced(String note);
+        void onPositiveButtonCliced(String note,int position);
     }
 }
