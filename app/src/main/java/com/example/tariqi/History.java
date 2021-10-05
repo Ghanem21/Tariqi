@@ -1,6 +1,7 @@
 package com.example.tariqi;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -99,17 +100,17 @@ Context context;
             }
         });
 
-        dataList= new ArrayList<>();
-        dataList.add(new DataTrip("alexandria"));
-        dataList.add(new DataTrip("paris"));
-        dataList.add(new DataTrip("Marsa Matrouh"));
-        dataList.add(new DataTrip("Pyramids"));
-        dataList.add(new DataTrip("Italy"));
-        dataList.add(new DataTrip("Mansoura"));
-        dataList.add(new DataTrip("Pyramids"));
-        dataList.add(new DataTrip("Italy"));
-        dataList.add(new DataTrip("Mansoura"));
-
+//        dataList= new ArrayList<>();
+//        dataList.add(new DataTrip("alexandria"));
+//        dataList.add(new DataTrip("paris"));
+//        dataList.add(new DataTrip("Marsa Matrouh"));
+//        dataList.add(new DataTrip("Pyramids"));
+//        dataList.add(new DataTrip("Italy"));
+//        dataList.add(new DataTrip("Mansoura"));
+//        dataList.add(new DataTrip("Pyramids"));
+//        dataList.add(new DataTrip("Italy"));
+//        dataList.add(new DataTrip("Mansoura"));
+//
         recyclerView=findViewById(R.id.recycleID);
         tripArrayList= new ArrayList<Trip>();
 
@@ -155,6 +156,10 @@ Context context;
             super.onBackPressed();
         }
     }
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

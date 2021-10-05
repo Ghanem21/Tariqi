@@ -128,9 +128,9 @@ public class Sign_Up extends AppCompatActivity {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putBoolean("hasLoggedIn",true);
                                         editor.commit();
-                                        SharedPreferences.Editor editor= sp.edit();
-                                        editor.putString("uid",uid);
-                                        editor.commit();
+                                        SharedPreferences.Editor editor1= sp.edit();
+                                        editor1.putString("uid",uid);
+                                        editor1.commit();
                                         startActivity(new Intent(Sign_Up.this,Home.class));
                                     }
                                     else {

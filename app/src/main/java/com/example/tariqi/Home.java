@@ -277,6 +277,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
             case R.id.menu_set_profile_pic:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent,100);
+                break;
             case R.id.menu_log_out:
                 builder =new AlertDialog.Builder(this);
                 builder.setTitle("Log Out")
