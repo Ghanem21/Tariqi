@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -64,6 +66,7 @@ Context context;
     private ListView listView;
     CircularImageView userImg;
     StorageReference reference;
+    AlertDialog.Builder builder;
     FirebaseAuth auth;
     private FirebaseDatabase FD=FirebaseDatabase.getInstance();
     private DatabaseReference DR;
@@ -195,6 +198,7 @@ Context context;
             }
         });
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -208,6 +212,33 @@ Context context;
             case R.id.menu_set_profile_pic:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent,100);
+                break;
+            case R.id.menu_log_out:
+                builder =new AlertDialog.Builder(this);
+                builder.setTitle("Log Out")
+                        .setMessage("Are you sure to log out ?")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile",0);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.remove("hasLoggedIn");
+                                editor.commit();
+                                Intent i = new Intent(History.this,SignInActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
+                break;
+
+
         }
         return true;
     }

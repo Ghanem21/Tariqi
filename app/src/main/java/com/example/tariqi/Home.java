@@ -301,6 +301,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                                 dialog.cancel();
                             }
                         }).show();
+                break;
 
 
         }
