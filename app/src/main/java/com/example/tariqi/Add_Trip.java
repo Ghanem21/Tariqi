@@ -80,7 +80,7 @@ TextView textView;
                 String type = radioButton.getText().toString();
                 //replace 10 with date and time
 
-                Trip trip = new Trip(name,start,end,date,time,type,uid,email,password,upcomingid,doneid);
+                Trip trip = new Trip(name,end,date,time,type,uid,email,password,upcomingid,doneid);
                 add(trip);
 
 

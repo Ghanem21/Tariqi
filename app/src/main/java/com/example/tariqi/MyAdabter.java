@@ -1,10 +1,16 @@
 package com.example.tariqi;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +20,29 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     Context context;
     ArrayList<Trip> tripArrayList;
     int position;
     SharedPreferences sp;
+    String startPoint;
+    public void setStartPoint(String startPoint) {
+        this.startPoint = startPoint;
+    }
 
     public MyAdabter(Context context, ArrayList<Trip> tripArrayList) {
         this.context = context;
@@ -38,12 +54,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     public MyAdabter.MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(context).inflate(R.layout.home_list_view_layout,parent,false);
-        v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-            }
-        });
 
         return new MyViewholder(v);
 
@@ -55,14 +66,35 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         Trip trip =tripArrayList.get(position);
 
         holder.tripname.setText(trip.name);
-        holder.location.setText(trip.location);
+        holder.location.setText(trip.getLocation());
         holder.start.setText(trip.startPoint);
         holder.date.setText(trip.date);
         holder.time.setText(trip.time);
         holder.typetrip.setText(trip.type);
+        holder.show_Note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(holder.itemView.getContext());
+                dialog.setTitle("Note");
+                dialog.setMessage(tripArrayList.get(position).getNote());
+                dialog.setIcon(R.drawable.sticky_notes);
+                dialog.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.create().show();
+            }
+        });
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SimpleDateFormat simpleTimeFormat =new SimpleDateFormat("HH:mm:ss", Locale.US);
+                trip.setTime(simpleTimeFormat.format(new Date()));
+
+                SimpleDateFormat simpleDateFormat =new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+                trip.setDate(simpleDateFormat.format(new Date()));
 
                 HashMap<String,String> userMap= new HashMap<>();
                 userMap.put("name",trip.getName());
@@ -77,11 +109,30 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 String tripuid=sp.getString("uid","");
 
                 FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("donetrip").child(trip.name).setValue(userMap);
+                displayMap();
+                notifyDataSetChanged();
+                //removeItem(position);
             }
         });
 
     }
 
+    private void displayMap() {
+        Geocoder geocoder = new Geocoder(context);
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName("cairo",1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Uri uri = Uri.parse("https://www.google.co.in/maps/dir/" + startPoint +
+                    "/" + addresses.get(0).getAddressLine(0));
+            Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+            intent.setPackage("com.google.android.apps.maps");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+
+    }
     @Override
     public int getItemCount() {
         return tripArrayList.size();
@@ -105,22 +156,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
             start=itemView.findViewById(R.id.btn_start);
             show_Note = itemView.findViewById(R.id.imageButton_note);
 
-            show_Note.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(itemView.getContext());
-                    dialog.setTitle("Note");
-                    dialog.setMessage("message test");
-                    dialog.setIcon(R.drawable.sticky_notes);
-                    dialog.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    });
-                    dialog.create().show();
-                }
-            });
             itemView.setOnCreateContextMenuListener(this);
         }
 
@@ -137,7 +173,13 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         tripArrayList.remove(position);
         notifyDataSetChanged();
     }
-    public String getNote(int position){
-        return tripArrayList.get(position).getName();
+    public void setNot(String note,int position){
+        String str;
+        if(tripArrayList.get(position).getNote() != null) {
+            str = tripArrayList.get(position).getNote() + "\n" + note;
+        }else {
+            str = note;
+        }
+        tripArrayList.get(position).setNote(str);
     }
 }

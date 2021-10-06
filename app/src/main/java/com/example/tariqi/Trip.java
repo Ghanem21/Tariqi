@@ -21,10 +21,9 @@ public class Trip {
         this.name = name;
     }
 
-    public Trip(String name,String start, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ) {
+    public Trip(String name, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ) {
         this.name = name;
         this.location = location;
-        this.startPoint= start;
         this.date = date;
         this.time = time;
         this.type = type;
@@ -33,6 +32,7 @@ public class Trip {
         this.password = password;
         this.upcomingid=upcomingid;
         this.doneid=doneid;
+        note = "";
     }
 
     public String getUpcomingid() {
