@@ -7,7 +7,6 @@ public class Trip {
      String date;
      String time;
      String type;
-     String startPoint;
     String email,password,uid,upcomingid,doneid;
     String note;
     public Trip(String email, String password) {
@@ -83,13 +82,7 @@ public class Trip {
         this.uid = uid;
     }
 
-    public String getStartPoint() {
-        return startPoint;
-    }
 
-    public void setStartPoint(String startPoint) {
-        this.startPoint = startPoint;
-    }
 
     public String getName() {
         return name;

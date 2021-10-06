@@ -26,7 +26,7 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
     private DatabaseReference DR;
     SharedPreferences sp;
     String email,password,uid,name, location, date,end,time, type,upcomingid,doneid;
-    Trip trip = new Trip(name,end,date,time,type,uid,email,password,upcomingid,doneid);
+    //Trip trip = new Trip(name,end,date,time,type,uid,email,password,upcomingid,doneid);
     public AdapterHistoy( ArrayList<Trip> tripArrayList, Context context) {
         this.tripArrayList = tripArrayList;
     }

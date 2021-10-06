@@ -54,7 +54,12 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     public MyAdabter.MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(context).inflate(R.layout.home_list_view_layout,parent,false);
+        v.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
+            }
+        });
 
         return new MyViewholder(v);
 
@@ -66,7 +71,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         Trip trip =tripArrayList.get(position);
 
         holder.tripname.setText(trip.name);
-        holder.location.setText(trip.getLocation());
+        holder.location.setText(trip.location);
         holder.start.setText(trip.startPoint);
         holder.date.setText(trip.date);
         holder.time.setText(trip.time);
@@ -111,7 +116,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("donetrip").child(trip.name).setValue(userMap);
                 displayMap();
                 notifyDataSetChanged();
-                //removeItem(position);
+                removeItem(position);
             }
         });
 
