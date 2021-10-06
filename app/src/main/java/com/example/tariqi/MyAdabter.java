@@ -124,7 +124,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         Geocoder geocoder = new Geocoder(context);
         List<Address> addresses = null;
         try {
-            addresses = geocoder.getFromLocationName("cairo",1);
+            addresses = geocoder.getFromLocationName("cairo",5);
         } catch (IOException e) {
             e.printStackTrace();
         }
