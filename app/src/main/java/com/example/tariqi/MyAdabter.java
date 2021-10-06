@@ -72,7 +72,6 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
 
         holder.tripname.setText(trip.name);
         holder.location.setText(trip.location);
-        holder.start.setText(trip.startPoint);
         holder.date.setText(trip.date);
         holder.time.setText(trip.time);
         holder.typetrip.setText(trip.type);
@@ -103,7 +102,6 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
 
                 HashMap<String,String> userMap= new HashMap<>();
                 userMap.put("name",trip.getName());
-                userMap.put("start",trip.getStartPoint());
                 userMap.put("end",trip.getLocation());
                 userMap.put("date",trip.getDate());
                 userMap.put("time",trip.getTime());
