@@ -108,6 +108,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Trip trip=dataSnapshot.getValue(Trip.class);
+                    trip.setRefKey(dataSnapshot.getKey());
                     tripArrayList.add(trip);
                 }
                 adapter.notifyDataSetChanged();

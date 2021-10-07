@@ -10,23 +10,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     Context context;
     ArrayList<Trip> tripArrayList;
     int position;
     SharedPreferences sp;
+    String tripuid;
 
     public MyAdabter(Context context, ArrayList<Trip> tripArrayList) {
         this.context = context;
@@ -54,32 +64,104 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
 
         Trip trip =tripArrayList.get(position);
 
-        holder.tripname.setText(trip.name);
-        holder.location.setText(trip.location);
-        holder.start.setText(trip.startPoint);
-        holder.date.setText(trip.date);
-        holder.time.setText(trip.time);
-        holder.typetrip.setText(trip.type);
+        holder.tripname.setText(trip.getName());
+        holder.location.setText(trip.getLocation());
+        holder.date.setText(trip.getDate());
+        holder.time.setText(trip.getTime());
+        holder.typetrip.setText(trip.getType());
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                String name = holder.tripname.getText().toString();
+                String location = holder.location.getText().toString();
+                String date = holder.date.getText().toString();
+                String time = holder.time.getText().toString();
+                String type = holder.typetrip.getText().toString();
+
                 HashMap<String,String> userMap= new HashMap<>();
-                userMap.put("name",trip.getName());
+                userMap.put("name",name);
                 userMap.put("start",trip.getStartPoint());
-                userMap.put("end",trip.getLocation());
-                userMap.put("date",trip.getDate());
-                userMap.put("time",trip.getTime());
-                userMap.put("type",trip.getType());
+                userMap.put("location",location);
+                userMap.put("date",date);
+                userMap.put("time",time);
+                userMap.put("type",type);
 
 
                 sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
-                String tripuid=sp.getString("uid","");
+                 tripuid=sp.getString("uid","");
 
                 FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("donetrip").child(trip.name).setValue(userMap);
+
+
+                FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                        .child(tripArrayList.get(position).getName()).removeValue();
+
+
+
+                tripArrayList.remove(position);
+                notifyItemRemoved(position);
+            }
+
+        });
+        // update data in add trip page
+        holder.update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DialogPlus dialogPlus=DialogPlus.newDialog(holder.tripname.getContext())
+                        .setContentHolder(new ViewHolder(R.layout.update_data)).setExpanded(true,1700).create();
+
+                View view=dialogPlus.getHolderView();
+              EditText editTripName,editTriplocation,editTripStart,editTripTime,editTripDate,editTripType;
+              Button btnUpdateTrip;
+                editTripName=view.findViewById(R.id.edt_trip_name);
+                editTriplocation=view.findViewById(R.id.edt_end_point);
+                editTripStart=view.findViewById(R.id.edt_start_point);
+                editTripDate=view.findViewById(R.id.addtrip_tv_date);
+                editTripTime=view.findViewById(R.id.addtrip_tv_time);
+                editTripType=view.findViewById(R.id.radia_id1);
+                btnUpdateTrip=view.findViewById(R.id.btn_update_trip);
+
+                editTripName.setText(trip.getName());
+                editTriplocation.setText(trip.getLocation());
+                editTripDate.setText(trip.getDate());
+                editTripTime.setText(trip.getTime());
+                editTripStart.setText(trip.getStartPoint());
+                editTripType.setText(trip.getType());
+
+                btnUpdateTrip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Map<String,Object> map= new HashMap<>();
+                        map.put("name",editTripName.getText().toString());
+                        map.put("start",editTripStart.getText().toString());
+                        map.put("end",editTriplocation.getText().toString());
+                        map.put("date",editTripDate.getText().toString());
+                        map.put("time",editTripTime.getText().toString());
+                        map.put("type",editTripType.getText().toString());
+
+                        sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
+                        tripuid=sp.getString("uid","");
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                                .child(tripArrayList.get(position).getName()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(holder.tripname.getContext(), "success", Toast.LENGTH_SHORT).show();
+                                dialogPlus.dismiss();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(holder.tripname.getContext(), "faild", Toast.LENGTH_SHORT).show();
+                                dialogPlus.dismiss();
+                            }
+                        });
+                    }
+                });
+                dialogPlus.show();
+
             }
         });
-
     }
 
     @Override
@@ -92,7 +174,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     public static class MyViewholder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
 
         TextView tripname,location,date,time,typetrip;
-        Button start;
+        Button start,update;
         ImageButton show_Note;
 
         public MyViewholder(@NonNull View itemView) {
@@ -104,7 +186,6 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
             typetrip = itemView.findViewById(R.id.tv_trip_type);
             start=itemView.findViewById(R.id.btn_start);
             show_Note = itemView.findViewById(R.id.imageButton_note);
-
             show_Note.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -121,6 +202,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                     dialog.create().show();
                 }
             });
+            update=itemView.findViewById(R.id.btn_edit);
             itemView.setOnCreateContextMenuListener(this);
         }
 

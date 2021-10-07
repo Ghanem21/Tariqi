@@ -40,7 +40,7 @@ public class Sign_Up extends AppCompatActivity {
     private EditText editTextEmail,editTextPass,editTextConfirmPass;
     private ProgressBar  progressBar;
     private Button signupButton;
-    String email,password,confirmpass,uid,name, location, date,time, type,upcomingid,doneid;
+    String email,password,confirmpass,uid;
     private ImageView googleSignUp,facebookSignUp,twiterSignUp;
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -116,7 +116,7 @@ public class Sign_Up extends AppCompatActivity {
                         if(task.isSuccessful()){
                             uid=task.getResult().getUser().getUid();
                            // User user= new User(email,password,uid,name,location,date,time,type);
-                            Trip trip= new Trip(name,location,date,time,type,uid,email,password,upcomingid,doneid);
+                            Trip trip= new Trip(email,password,uid);
                             FirebaseDatabase.getInstance().getReference("Users").child(uid)
                                     .setValue(trip).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -152,7 +152,8 @@ public class Sign_Up extends AppCompatActivity {
         //signIn with google
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id
+                ))
                 .requestEmail()
                 .build();
 

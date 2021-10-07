@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -15,20 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
 public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder> {
     private ArrayList<Trip>tripArrayList;
-
     Context context;
-    private FirebaseDatabase FD=FirebaseDatabase.getInstance();
-    private DatabaseReference DR;
     SharedPreferences sp;
-    String email,password,uid,name, location, date,end,time, type,upcomingid,doneid;
-    Trip trip = new Trip(name,end,date,time,type,uid,email,password,upcomingid,doneid);
+    String name, location, date,end,time, type,startpoint,note;
+    Trip trip = new Trip(name,location,date,time,type,startpoint,note);
     public AdapterHistoy( ArrayList<Trip> tripArrayList, Context context) {
         this.tripArrayList = tripArrayList;
+        this.context=context;
     }
 
 
@@ -41,7 +41,8 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterHistoy.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.tripname.setText(tripArrayList.get(position).getName());
         holder.tripLocation.setText(tripArrayList.get(position).getLocation());
         holder.tripNote.setText(tripArrayList.get(position).getNote());
@@ -60,6 +61,7 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                 holder.tripNote.setVisibility(View.VISIBLE);
                 holder.delet.setVisibility(View.VISIBLE);
                 holder.showLess.setVisibility(View.VISIBLE);
+                holder.showDetils.setVisibility(View.GONE);
             }
         });
         holder.showLess.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +73,9 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                 holder.tripDate.setVisibility(View.GONE);
                 holder.tripNote.setVisibility(View.GONE);
                 holder.delet.setVisibility(View.GONE);
+                holder.showDetils.setVisibility(View.VISIBLE);
                 holder.showLess.setVisibility(View.GONE);
+
             }
         });
         holder.delet.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +87,12 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        sp= context.getSharedPreferences("UserPrefrence",context.MODE_PRIVATE);
+                        String tripuid=sp.getString("uid","");
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("donetrip").child(tripArrayList.get(position).getName()).removeValue();
                         tripArrayList.remove(position);
                         notifyItemRemoved(position);
-//                        sp=context.getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
-//                        String tripuid=sp.getString("uid","");
-//                        DR=FD.getReference().child("Users").child(tripuid).child("donetrip").child(DR.getKey()).removeValue();
-//                        Toast.makeText(holder.tripname, "delete", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("cancle", new DialogInterface.OnClickListener() {
@@ -98,15 +102,12 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                     }
                 });
                 builder.show();
+
+
+
+
             }
         });
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i= new Intent(v.getContext(),ItemHistory.class);
-//                v.getContext().startActivity(i);
-//            }
-//        });
     }
 
     @Override

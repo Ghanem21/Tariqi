@@ -8,6 +8,7 @@ public class Trip {
      String time;
      String type;
      String startPoint;
+     String RefKey;
     String email,password,uid,upcomingid,doneid;
     String note;
     public Trip(String email, String password) {
@@ -21,7 +22,23 @@ public class Trip {
         this.name = name;
     }
 
-    public Trip(String name,String start, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ) {
+    public Trip(String email, String password, String uid) {
+        this.email = email;
+        this.password = password;
+        this.uid = uid;
+    }
+
+    public Trip(String name, String location, String date, String time, String type, String startPoint, String note) {
+        this.name = name;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+        this.type = type;
+        this.startPoint = startPoint;
+        this.note = note;
+    }
+
+    public Trip(String name, String start, String location, String date, String time, String type, String uid, String email, String password, String upcomingid, String doneid ) {
         this.name = name;
         this.location = location;
         this.startPoint= start;
@@ -33,6 +50,14 @@ public class Trip {
         this.password = password;
         this.upcomingid=upcomingid;
         this.doneid=doneid;
+    }
+
+    public String getRefKey() {
+        return RefKey;
+    }
+
+    public void setRefKey(String refKey) {
+        RefKey = refKey;
     }
 
     public String getUpcomingid() {
