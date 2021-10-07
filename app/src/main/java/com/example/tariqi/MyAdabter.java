@@ -132,7 +132,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 userMap.put("date",date);
                 userMap.put("time",time);
                 userMap.put("type",type);
-                userMap.put("note",str);
+                userMap.put("note",tripArrayList.get(position).getNote());
                 userMap.put("calender",timecalender+"");
 
 
@@ -168,7 +168,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                         .setContentHolder(new ViewHolder(R.layout.update_data)).setExpanded(true,1700).create();
 
                 View view=dialogPlus.getHolderView();
-              EditText editTripName,editTriplocation,editTripStart,editTripTime,editTripDate,editTripType;
+              EditText editTripName,editTriplocation,editTripStart,editTripTime,editTripDate,editTripType,editTripnote;
               Button btnUpdateTrip;
                 editTripName=view.findViewById(R.id.edt_trip_name);
                 editTriplocation=view.findViewById(R.id.edt_end_point);
@@ -182,8 +182,12 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 editTriplocation.setText(trip.getLocation());
                 editTripDate.setText(trip.getDate());
                 editTripTime.setText(trip.getTime());
-                editTripType.setText(trip.getType());
-
+//                editTripType.setText(trip.getType());
+//                if( trip.getNote() == null){
+//                    editTripnote.setText("");
+//                }else {
+//                    editTripnote.setText(trip.getNote());
+//                }
                 btnUpdateTrip.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -194,6 +198,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                         map.put("date",editTripDate.getText().toString());
                         map.put("time",editTripTime.getText().toString());
                         map.put("type",editTripType.getText().toString());
+                        //map.put("note",editTripnote.getText().toString());
 
 
                         sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
@@ -309,5 +314,10 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
             str = note;
         }
         tripArrayList.get(position).setNote(str);
+        sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
+        System.out.println(str);
+        tripuid=sp.getString("uid","");
+        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                .child(tripArrayList.get(position).getName()).child("note").setValue(str);
     }
 }
