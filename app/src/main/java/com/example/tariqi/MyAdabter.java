@@ -1,7 +1,9 @@
 package com.example.tariqi;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -29,12 +31,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
+    private static final int REQUEST_CODE_ALARM = 8888;
     Context context;
     ArrayList<Trip> tripArrayList;
     int position;
@@ -119,7 +123,15 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         });
 
     }
-
+    public void setAlarm(Calendar calendar){
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        Intent intent = new Intent(context,AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,REQUEST_CODE_ALARM,intent,0);
+        if (calendar.before(Calendar.getInstance())){
+            calendar.add(calendar.DATE,1);
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+    }
     private void displayMap() {
         Geocoder geocoder = new Geocoder(context);
         List<Address> addresses = null;
