@@ -26,6 +26,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
@@ -66,6 +67,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener ,DialogFragment.PositiveClickListener{
+    private static final int LOCATION_REQUEST_CODE = 1;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ImageButton add ;
@@ -164,8 +166,16 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),Add_Trip.class);
-                startActivity(i);
+                if (ActivityCompat.checkSelfPermission(Home.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(Home.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+                    ActivityCompat.requestPermissions(Home.this, permissions, LOCATION_REQUEST_CODE);
+                } else {
+                    Intent i = new Intent(getApplicationContext(),Add_Trip.class);
+                    startActivity(i);
+                }
+
             }
         });
 
@@ -334,6 +344,28 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         return Uri.parse(path);
     }
 
+
+
+
+   /* if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(MainActivity.this, permissions, LOCATION_REQUEST_CODE);
+        } else {
+            locationProv.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        }
+        @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationProv.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+            }
+        }
+    }
+*/
     @Override
     public void onPositiveButtonCliced(String note,int position) {
         adapter.setNot(note,position);
@@ -342,13 +374,14 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_LOCATION && grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocation();
-            } else {
-                Toast.makeText(Home.this, "permissions denied", Toast.LENGTH_SHORT).show();
+            if (requestCode == LOCATION_REQUEST_CODE) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    Toast.makeText(Home.this, "permisson aceppted", Toast.LENGTH_SHORT).show();
+                }
             }
         }
-    }
+
     private void getLastLocation() {
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(Home.this,location -> {
             if (location != null) {

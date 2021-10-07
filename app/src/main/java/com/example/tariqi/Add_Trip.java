@@ -121,24 +121,24 @@ public class Add_Trip extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(Add_Trip.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            shour=hourOfDay;
-                            sminute=minute;
-                            Calendar calendar =Calendar.getInstance();
-                            String sdate = date_tv.getText().toString().trim();
-                            String[] strings =sdate.split("-");
-                            int sday = Integer.parseInt(strings[0]);
-                            calendar.set(Calendar.DAY_OF_MONTH,sday);
-                            calendar.set(Calendar.HOUR_OF_DAY,shour);
-                            calendar.set(Calendar.MINUTE,sminute);
-                           // time_tv.setText(DateFormat.format("hh:mm aa",calendar));
-                            if (calendar.getTimeInMillis() == Calendar.getInstance().getTimeInMillis()){
-                                Toast.makeText(Add_Trip.this, "You Select Current Time", Toast.LENGTH_SHORT).show();
-                                time_tv.setText(DateFormat.format("hh:mm aa",calendar));
-                            }else if (calendar.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()){
-                                time_tv.setText(DateFormat.format("hh:mm aa",calendar));
-                            }else{
-                                Toast.makeText(Add_Trip.this, "You Select Past Time", Toast.LENGTH_SHORT).show();
-                            }
+                        shour=hourOfDay;
+                        sminute=minute;
+                        Calendar calendar =Calendar.getInstance();
+                        String sdate = date_tv.getText().toString().trim();
+                        String[] strings =sdate.split("-");
+                        int sday = Integer.parseInt(strings[0]);
+                        calendar.set(Calendar.DAY_OF_MONTH,sday);
+                        calendar.set(Calendar.HOUR_OF_DAY,shour);
+                        calendar.set(Calendar.MINUTE,sminute);
+                        // time_tv.setText(DateFormat.format("hh:mm aa",calendar));
+                        if (calendar.getTimeInMillis() == Calendar.getInstance().getTimeInMillis()){
+                            Toast.makeText(Add_Trip.this, "You Select Current Time", Toast.LENGTH_SHORT).show();
+                            time_tv.setText(DateFormat.format("hh:mm aa",calendar));
+                        }else if (calendar.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()){
+                            time_tv.setText(DateFormat.format("hh:mm aa",calendar));
+                        }else{
+                            Toast.makeText(Add_Trip.this, "You Select Past Time", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 },chour,cminute,false
@@ -191,6 +191,6 @@ public class Add_Trip extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getApplicationContext(), "failed in add Trip", Toast.LENGTH_SHORT).show();
                     }
-    });
-}
+                });
+    }
 }
