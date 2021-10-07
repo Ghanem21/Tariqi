@@ -3,7 +3,9 @@ package com.example.tariqi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -121,24 +123,27 @@ public class Add_Trip extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(Add_Trip.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        shour=hourOfDay;
-                        sminute=minute;
-                        Calendar calendar =Calendar.getInstance();
-                        String sdate = date_tv.getText().toString().trim();
-                        String[] strings =sdate.split("-");
-                        int sday = Integer.parseInt(strings[0]);
-                        calendar.set(Calendar.DAY_OF_MONTH,sday);
-                        calendar.set(Calendar.HOUR_OF_DAY,shour);
-                        calendar.set(Calendar.MINUTE,sminute);
-                        // time_tv.setText(DateFormat.format("hh:mm aa",calendar));
-                        if (calendar.getTimeInMillis() == Calendar.getInstance().getTimeInMillis()){
-                            Toast.makeText(Add_Trip.this, "You Select Current Time", Toast.LENGTH_SHORT).show();
-                            time_tv.setText(DateFormat.format("hh:mm aa",calendar));
-                        }else if (calendar.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()){
-                            time_tv.setText(DateFormat.format("hh:mm aa",calendar));
-                        }else{
-                            Toast.makeText(Add_Trip.this, "You Select Past Time", Toast.LENGTH_SHORT).show();
-                        }
+                            shour=hourOfDay;
+                            sminute=minute;
+                            Calendar calendar =Calendar.getInstance();
+                            String sdate = date_tv.getText().toString().trim();
+                            String[] strings =sdate.split("-");
+                            int sday = Integer.parseInt(strings[0]);
+                            calendar.set(Calendar.DAY_OF_MONTH,sday);
+                            calendar.set(Calendar.HOUR_OF_DAY,shour);
+                            calendar.set(Calendar.MINUTE,sminute);
+                            calendar.set(Calendar.SECOND,0);
+                            setAlarm(calendar);
+                            // time_tv.setText(DateFormat.format("hh:mm aa",calendar));
+                            if (calendar.getTimeInMillis() == Calendar.getInstance().getTimeInMillis()){
+                                Toast.makeText(Add_Trip.this, "You Select Current Time", Toast.LENGTH_SHORT).show();
+                                time_tv.setText(DateFormat.format("hh:mm aa",calendar));
+                                }
+                            else if (calendar.getTimeInMillis() > Calendar.getInstance().getTimeInMillis()){
+                                time_tv.setText(DateFormat.format("hh:mm aa",calendar));
+                            }else{
+                                Toast.makeText(Add_Trip.this, "You Select Past Time", Toast.LENGTH_SHORT).show();
+                            }
 
                     }
                 },chour,cminute,false
@@ -191,6 +196,15 @@ public class Add_Trip extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getApplicationContext(), "failed in add Trip", Toast.LENGTH_SHORT).show();
                     }
-                });
+    });
+}
+    public void setAlarm(Calendar calendar){
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),888,intent,0);
+        if (calendar.before(Calendar.getInstance())){
+            calendar.add(calendar.DATE,1);
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
     }
 }

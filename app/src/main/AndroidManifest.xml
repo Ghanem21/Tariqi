@@ -61,6 +61,7 @@
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
+        <receiver android:name=".AlertReceiver"/>
     </application>
 
 </manifest>
