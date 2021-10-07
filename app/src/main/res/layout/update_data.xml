@@ -117,14 +117,6 @@
                 android:textSize="20dp"
                 android:onClick="checkedRadioButton"/>
 
-<!--            <RadioButton-->
-<!--                android:id="@+id/radia_id2"-->
-<!--                android:layout_width="fill_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Round Trip"-->
-<!--                android:textSize="20dp"-->
-<!--                android:onClick="checkedRadioButton"/>-->
-
         </RadioGroup>
 
     <Button

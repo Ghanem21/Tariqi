@@ -108,6 +108,7 @@ TextView textView;
                 userMap.put("time",time);
                 userMap.put("type",type);
                 userMap.put("calender",calTime+"");
+                userMap.put("note","");
 
 
 
