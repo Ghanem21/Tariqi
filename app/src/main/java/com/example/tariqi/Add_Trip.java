@@ -45,15 +45,17 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class Add_Trip extends AppCompatActivity {
+TextView textView;
     //ghanem add for datebase
     FirebaseFirestore db;
-    EditText tripName,startPoint,endPoint;
+    EditText tripName,startPoint1,endPoint;
     Button addTrip;
     RadioGroup radioGroup;
     RadioButton radioButton;
     TextView date_tv , time_tv;
-    String email,password,uid,name, location, date,time, type,upcomingid,doneid;
+    String name, location, date,time,note, type,startPoint;
     SharedPreferences sp;
+    long calTime;
     int cyear,cmonth,cday,syear,smonth,sday,chour,cminute,shour,sminute;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class Add_Trip extends AppCompatActivity {
         //ghanem add for datebase
         db = FirebaseFirestore.getInstance();
         tripName = (EditText)findViewById(R.id.edt_trip_name);
-        startPoint = (EditText)findViewById(R.id.edt_start_point);
+        startPoint1 = (EditText)findViewById(R.id.edt_start_point);
         endPoint = (EditText)findViewById(R.id.edt_end_point);
         addTrip = (Button)findViewById(R.id.btn_add_trip);
         radioGroup = (RadioGroup) findViewById(R.id.groupradio);
@@ -86,25 +88,27 @@ public class Add_Trip extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = tripName.getText().toString();
-                String start = startPoint.getText().toString();
-                String end = endPoint.getText().toString();
+                String startPoint = startPoint1.getText().toString();
+                String location = endPoint.getText().toString();
                 String date = date_tv.getText().toString();
                 String time = time_tv.getText().toString();
                 String type = radioButton.getText().toString();
                 //replace 10 with date and time
 
-                Trip trip = new Trip(name,end,date,time,type,uid,email,password,upcomingid,doneid);
+                Trip trip = new Trip(name,location,date,time,type,startPoint,note);
                 add(trip);
 
 
                 //realtime database (rahma)
                 HashMap<String,String> userMap= new HashMap<>();
                 userMap.put("name",name);
-                userMap.put("start",start);
-                userMap.put("end",end);
+                userMap.put("start",startPoint);
+                userMap.put("location",location);
                 userMap.put("date",date);
                 userMap.put("time",time);
                 userMap.put("type",type);
+                userMap.put("calender",calTime+"");
+                userMap.put("note","");
 
 
 
@@ -133,6 +137,7 @@ public class Add_Trip extends AppCompatActivity {
                             calendar.set(Calendar.HOUR_OF_DAY,shour);
                             calendar.set(Calendar.MINUTE,sminute);
                             calendar.set(Calendar.SECOND,0);
+                            calTime=calendar.getTimeInMillis();
                             setAlarm(calendar);
                             // time_tv.setText(DateFormat.format("hh:mm aa",calendar));
                             if (calendar.getTimeInMillis() == Calendar.getInstance().getTimeInMillis()){
@@ -185,7 +190,6 @@ public class Add_Trip extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        System.out.println( upcomingid);
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(),Home.class);
                         startActivity(i);
@@ -199,7 +203,7 @@ public class Add_Trip extends AppCompatActivity {
     });
 }
     public void setAlarm(Calendar calendar){
-        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),888,intent,0);
         if (calendar.before(Calendar.getInstance())){

@@ -33,6 +33,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.auth.User;
 
+import org.chromium.base.Log;
 
 public class Sign_Up extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -40,7 +41,7 @@ public class Sign_Up extends AppCompatActivity {
     private EditText editTextEmail,editTextPass,editTextConfirmPass;
     private ProgressBar  progressBar;
     private Button signupButton;
-    String email,password,confirmpass,uid,name, location, date,time, type,upcomingid,doneid;
+    String email,password,confirmpass,uid;
     private ImageView googleSignUp,facebookSignUp,twiterSignUp;
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -115,8 +116,8 @@ public class Sign_Up extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             uid=task.getResult().getUser().getUid();
-
-                            Trip trip= new Trip(name,location,date,time,type,uid,email,password,upcomingid,doneid);
+                           // User user= new User(email,password,uid,name,location,date,time,type);
+                            Trip trip= new Trip(email,password,uid);
                             FirebaseDatabase.getInstance().getReference("Users").child(uid)
                                     .setValue(trip).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

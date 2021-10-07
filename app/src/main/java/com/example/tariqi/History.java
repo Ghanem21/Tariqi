@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -103,25 +104,12 @@ Context context;
             }
         });
 
-//        dataList= new ArrayList<>();
-//        dataList.add(new DataTrip("alexandria"));
-//        dataList.add(new DataTrip("paris"));
-//        dataList.add(new DataTrip("Marsa Matrouh"));
-//        dataList.add(new DataTrip("Pyramids"));
-//        dataList.add(new DataTrip("Italy"));
-//        dataList.add(new DataTrip("Mansoura"));
-//        dataList.add(new DataTrip("Pyramids"));
-//        dataList.add(new DataTrip("Italy"));
-//        dataList.add(new DataTrip("Mansoura"));
-//
         recyclerView=findViewById(R.id.recycleID);
         tripArrayList= new ArrayList<Trip>();
 
         AdapterHistoy adapterHistoy= new AdapterHistoy(tripArrayList,this);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(adapterHistoy);
-
-
         sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
         String tripuid=sp.getString("uid","");
         DR=FD.getReference().child("Users").child(tripuid).child("donetrip");

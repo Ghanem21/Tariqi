@@ -188,15 +188,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        //signin with twitter
-        twiterSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent twitterIntent= new Intent(SignInActivity.this,TwitterActivity.class);
-                startActivity(twitterIntent);
-            }
-        });
-
 
     }
 //google
@@ -234,7 +225,7 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this, "Existing User.."+emailgoogle, Toast.LENGTH_SHORT).show();
 
                 }
-                Intent homeIntent= new Intent(SignInActivity.this,History.class);
+                Intent homeIntent= new Intent(SignInActivity.this,Home.class);
                 startActivity(homeIntent);
                 finish();
             }

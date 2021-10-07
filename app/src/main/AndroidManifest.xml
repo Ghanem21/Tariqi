@@ -22,9 +22,6 @@
             android:name=".TwitterActivity"
             android:exported="true" />
         <activity
-            android:name=".ItemHistory"
-            android:exported="true" />
-        <activity
             android:name=".History"
             android:exported="true" />
 
