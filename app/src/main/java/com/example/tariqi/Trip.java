@@ -7,8 +7,10 @@ public class Trip {
      String date;
      String time;
      String type;
+     String startPoint;
     String email,password,uid,upcomingid,doneid;
     String note;
+    long cal;
     public Trip(String email, String password) {
         this.email = email;
         this.password = password;
@@ -18,6 +20,22 @@ public class Trip {
 
     public Trip(String name) {
         this.name = name;
+    }
+
+    public Trip(String email, String password, String uid) {
+        this.email = email;
+        this.password = password;
+        this.uid = uid;
+    }
+
+    public Trip(String name, String location, String date, String time, String type, String startPoint, String note) {
+        this.name = name;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+        this.type = type;
+        this.startPoint = startPoint;
+        this.note = note;
     }
 
     public Trip(String name, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ) {
@@ -32,6 +50,14 @@ public class Trip {
         this.upcomingid=upcomingid;
         this.doneid=doneid;
         note = "";
+    }
+
+    public long getCal() {
+        return cal;
+    }
+
+    public void setCal(long cal) {
+        this.cal = cal;
     }
 
     public String getUpcomingid() {

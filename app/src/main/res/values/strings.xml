@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">Tariqi</string>
     <string name="sign_up">Sign Up</string>
@@ -49,10 +51,20 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_your_note">Enter Your Note</string>
-    <string name="com.twitter.sdk.android.CONSUMER_KEY">AH65iIRMfX2Z9HAhVw1RAfu5K</string>
-    <string name="com.twitter.sdk.android.CONSUMER_SECRET">ykyiONGtX6kr10XFwfe2hGAU5vLPdGnE9SMZgiP4iBT70jE1eQ</string>
     <string name="delet_trip">Delet Trip</string>
     <string name="showless">Show Less</string>
+    <string name="edit_data">Edit Data</string>
+    <string name="edit_trip">Update Data</string>
+    <string name="sign_up_with_google">Sign up with google</string>
+
+
+<!--       <string name="default_web_client_id" translatable="false">219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com</string>-->
+<!--    <string name="gcm_defaultSenderId" translatable="false">219834984630</string>-->
+<!--    <string name="google_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
+<!--    <string name="google_app_id" translatable="false">1:219834984630:android:7cc29894eb23ff4920de17</string>-->
+<!--    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
+<!--    <string name="google_storage_bucket" translatable="false">tariqi-609d8.appspot.com</string>-->
+<!--    <string name="project_id" translatable="false">tariqi-609d8</string>-->
 
 
 </resources>
