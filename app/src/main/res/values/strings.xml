@@ -58,7 +58,7 @@
     <string name="sign_up_with_google">Sign up with google</string>
 
 
-    <!--    <string name="default_web_client_id" translatable="false">219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com</string>-->
+<!--       <string name="default_web_client_id" translatable="false">219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com</string>-->
 <!--    <string name="gcm_defaultSenderId" translatable="false">219834984630</string>-->
 <!--    <string name="google_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
 <!--    <string name="google_app_id" translatable="false">1:219834984630:android:7cc29894eb23ff4920de17</string>-->

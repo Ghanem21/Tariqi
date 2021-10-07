@@ -53,6 +53,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     int position;
     SharedPreferences sp;
     String startPoint;
+    String str;
     public void setStartPoint(String startPoint) {
         this.startPoint = startPoint;
     }
@@ -105,32 +106,44 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 dialog.create().show();
             }
         });
+
+        // setAlarm(tripArayList.get(position).getCal());
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SimpleDateFormat simpleTimeFormat =new SimpleDateFormat("HH:mm:ss", Locale.US);
-                trip.setTime(simpleTimeFormat.format(new Date()));
+                String newTime=simpleTimeFormat.format(new Date());
+                trip.setTime(newTime);
 
                 SimpleDateFormat simpleDateFormat =new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-                trip.setDate(simpleDateFormat.format(new Date()));
+                String newDate=simpleDateFormat.format(new Date());
+                trip.setDate(newDate);
 
                 String name = holder.tripname.getText().toString();
                 String location = holder.location.getText().toString();
                 String date = holder.date.getText().toString();
                 String time = holder.time.getText().toString();
                 String type = holder.typetrip.getText().toString();
+                long timecalender= tripArrayList.get(position).getCal();
 
                 HashMap<String,String> userMap= new HashMap<>();
                 userMap.put("name",name);
-                userMap.put("start",trip.getStartPoint());
                 userMap.put("location",location);
                 userMap.put("date",date);
                 userMap.put("time",time);
                 userMap.put("type",type);
+                userMap.put("note",str);
+                userMap.put("calender",timecalender+"");
+
 
 
                 sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
-                 tripuid=sp.getString("uid","");
+                tripuid=sp.getString("uid","");
+
+                FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                        .child(tripArrayList.get(position).getName()).child("time").setValue(newTime);
+                FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                        .child(tripArrayList.get(position).getName()).child("date").setValue(newDate);
 
                 FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("donetrip").child(trip.name).setValue(userMap);
                 displayMap();
@@ -169,7 +182,6 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 editTriplocation.setText(trip.getLocation());
                 editTripDate.setText(trip.getDate());
                 editTripTime.setText(trip.getTime());
-                editTripStart.setText(trip.getStartPoint());
                 editTripType.setText(trip.getType());
 
                 btnUpdateTrip.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +194,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                         map.put("date",editTripDate.getText().toString());
                         map.put("time",editTripTime.getText().toString());
                         map.put("type",editTripType.getText().toString());
+
 
                         sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
                         tripuid=sp.getString("uid","");
@@ -206,30 +219,31 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
             }
         });
     }
-    public void setAlarm(Calendar calendar){
+    public void setAlarm(long time){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         Intent intent = new Intent(context,AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,REQUEST_CODE_ALARM,intent,0);
-        if (calendar.before(Calendar.getInstance())){
-            calendar.add(calendar.DATE,1);
-        }
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,888,intent,0);
+        if (time <Calendar.getInstance().getTimeInMillis()){
+
+        }else {
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, time,pendingIntent);}
     }
+
     private void displayMap() {
         Geocoder geocoder = new Geocoder(context);
         List<Address> addresses = null;
         try {
-            addresses = geocoder.getFromLocationName("cairo",5);
+            addresses = geocoder.getFromLocationName(tripArrayList.get(position).getLocation(), 5);
         } catch (IOException e) {
             e.printStackTrace();
         }
         Uri uri = Uri.parse("https://www.google.co.in/maps/dir/" + startPoint +
-                    "/" + addresses.get(0).getAddressLine(0));
-            Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-            intent.setPackage("com.google.android.apps.maps");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-
+                "/" + addresses.get(0).getAddressLine(0));
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.google.android.apps.maps");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
     @Override
     public int getItemCount() {
         return tripArrayList.size();
@@ -288,7 +302,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         notifyDataSetChanged();
     }
     public void setNot(String note,int position){
-        String str;
+
         if(tripArrayList.get(position).getNote() != null) {
             str = tripArrayList.get(position).getNote() + "\n" + note;
         }else {

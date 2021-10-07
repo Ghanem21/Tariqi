@@ -10,6 +10,7 @@ public class Trip {
      String startPoint;
     String email,password,uid,upcomingid,doneid;
     String note;
+    long cal;
     public Trip(String email, String password) {
         this.email = email;
         this.password = password;
@@ -49,6 +50,14 @@ public class Trip {
         this.upcomingid=upcomingid;
         this.doneid=doneid;
         note = "";
+    }
+
+    public long getCal() {
+        return cal;
+    }
+
+    public void setCal(long cal) {
+        this.cal = cal;
     }
 
     public String getUpcomingid() {

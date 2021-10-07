@@ -55,6 +55,7 @@ TextView textView;
     TextView date_tv , time_tv;
     String name, location, date,time,note, type,startPoint;
     SharedPreferences sp;
+    long calTime;
     int cyear,cmonth,cday,syear,smonth,sday,chour,cminute,shour,sminute;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,7 @@ TextView textView;
                 userMap.put("date",date);
                 userMap.put("time",time);
                 userMap.put("type",type);
+                userMap.put("calender",calTime+"");
 
 
 
@@ -134,6 +136,7 @@ TextView textView;
                             calendar.set(Calendar.HOUR_OF_DAY,shour);
                             calendar.set(Calendar.MINUTE,sminute);
                             calendar.set(Calendar.SECOND,0);
+                            calTime=calendar.getTimeInMillis();
                             setAlarm(calendar);
                             // time_tv.setText(DateFormat.format("hh:mm aa",calendar));
                             if (calendar.getTimeInMillis() == Calendar.getInstance().getTimeInMillis()){
@@ -186,7 +189,6 @@ TextView textView;
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        System.out.println( upcomingid);
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(),Home.class);
                         startActivity(i);
@@ -200,7 +202,7 @@ TextView textView;
     });
 }
     public void setAlarm(Calendar calendar){
-        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),888,intent,0);
         if (calendar.before(Calendar.getInstance())){

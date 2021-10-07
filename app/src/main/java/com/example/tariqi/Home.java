@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +32,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -55,7 +59,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
@@ -63,6 +70,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.squareup.picasso.Picasso;
 
 public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener ,DialogFragment.PositiveClickListener{
@@ -89,6 +98,8 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     LocationCallback locationCallback;
     Geocoder geocoder;
     String startPoint;
+    String name, location, date,time,note, type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,8 +131,8 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Trip trip=dataSnapshot.getValue(Trip.class);
-                    trip.setRefKey(dataSnapshot.getKey());
                     tripArrayList.add(trip);
+                 //   setAlarm(trip.getCal());
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -260,10 +271,16 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                 return true;
             case 122:
-                adapter.removeItem(item.getGroupId());
+                Trip trip = new Trip(name,location,date,time,type,startPoint,note);
+                sp= getApplicationContext().getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
+                String  tripuid=sp.getString("uid","");
+                FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip").child(trip.getName()).removeValue();
+                      //  .child(tripArrayList.get(position).getName()).removeValue();
+               // adapter.removeItem(item.getGroupId());
                 return true;
             case 123:
-                Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+
+              //  Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return true;
@@ -311,7 +328,14 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.remove("hasLoggedIn");
                                 editor.commit();
+
+                                Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 888, intent, 0);
+                                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                                alarmManager.cancel(pendingIntent);
+
                                 Intent i = new Intent(Home.this,SignInActivity.class);
+
                                 startActivity(i);
                                 finish();
                             }
@@ -403,4 +427,15 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 ActivityCompat.requestPermissions(Home.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         }
     }
+
+        public void setAlarm(long calender){
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),888,intent,0);
+            if (calender <=Calendar.getInstance().getTimeInMillis()){
+
+            }else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calender, pendingIntent);
+            }
+        }
 }

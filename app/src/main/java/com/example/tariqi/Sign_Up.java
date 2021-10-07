@@ -117,7 +117,7 @@ public class Sign_Up extends AppCompatActivity {
                         if(task.isSuccessful()){
                             uid=task.getResult().getUser().getUid();
                            // User user= new User(email,password,uid,name,location,date,time,type);
-                            Trip trip= new Trip(name,location,date,time,type,uid,email,password,upcomingid,doneid);
+                            Trip trip= new Trip(email,password,uid);
                             FirebaseDatabase.getInstance().getReference("Users").child(uid)
                                     .setValue(trip).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
