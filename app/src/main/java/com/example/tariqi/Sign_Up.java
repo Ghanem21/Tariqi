@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.auth.User;
 
 import org.chromium.base.Log;
 
@@ -116,7 +117,7 @@ public class Sign_Up extends AppCompatActivity {
                         if(task.isSuccessful()){
                             uid=task.getResult().getUser().getUid();
                            // User user= new User(email,password,uid,name,location,date,time,type);
-                            Trip trip= new Trip(email,password,uid);
+                            Trip trip= new Trip(name,location,date,time,type,uid,email,password,upcomingid,doneid);
                             FirebaseDatabase.getInstance().getReference("Users").child(uid)
                                     .setValue(trip).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -152,8 +153,7 @@ public class Sign_Up extends AppCompatActivity {
         //signIn with google
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id
-                ))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 

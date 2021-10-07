@@ -22,7 +22,10 @@ import java.util.ArrayList;
 
 public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder> {
     private ArrayList<Trip>tripArrayList;
+
     Context context;
+    private FirebaseDatabase FD=FirebaseDatabase.getInstance();
+    private DatabaseReference DR;
     SharedPreferences sp;
     String name, location, date,end,time, type,startpoint,note;
     Trip trip = new Trip(name,location,date,time,type,startpoint,note);
@@ -41,8 +44,7 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull AdapterHistoy.ViewHolder holder, int position) {
         holder.tripname.setText(tripArrayList.get(position).getName());
         holder.tripLocation.setText(tripArrayList.get(position).getLocation());
         holder.tripNote.setText(tripArrayList.get(position).getNote());
@@ -93,6 +95,10 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                         FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("donetrip").child(tripArrayList.get(position).getName()).removeValue();
                         tripArrayList.remove(position);
                         notifyItemRemoved(position);
+//                        sp=context.getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
+//                        String tripuid=sp.getString("uid","");
+//                        DR=FD.getReference().child("Users").child(tripuid).child("donetrip").child(DR.getKey()).removeValue();
+//                        Toast.makeText(holder.tripname, "delete", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("cancle", new DialogInterface.OnClickListener() {
@@ -102,12 +108,15 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                     }
                 });
                 builder.show();
-
-
-
-
             }
         });
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i= new Intent(v.getContext(),ItemHistory.class);
+//                v.getContext().startActivity(i);
+//            }
+//        });
     }
 
     @Override
