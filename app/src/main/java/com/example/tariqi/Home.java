@@ -1,15 +1,6 @@
 package com.example.tariqi;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static org.chromium.base.ContextUtils.getApplicationContext;
 
 import android.Manifest;
 import android.app.Activity;
@@ -28,79 +19,85 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.siddharthks.bubbles.FloatingBubblePermissions;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
-import com.squareup.picasso.Picasso;
-
-public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener ,DialogFragment.PositiveClickListener{
+public class Home extends AppCompatActivity implements OnNavigationItemSelectedListener, DialogFragment.PositiveClickListener {
     private static final int LOCATION_REQUEST_CODE = 1;
     private DrawerLayout drawerLayout;
+    private final static int REQUEST_CODE_LOCATION = 102;
+    private static final int REQUEST_CODE_FOR_OVERLAY_SCREEN = 106;
     private ActionBarDrawerToggle drawerToggle;
-    private ImageButton add ;
+    private ImageButton add;
     private NavigationView navigationView;
     private Toolbar toolbar;
     RecyclerView recyclerView;
     ArrayList<Trip> tripArrayList;
-    MyAdabter adapter ;
+    MyAdabter adapter;
     FirebaseFirestore db;
     ProgressDialog progressDialog;
     CircularImageView userImg;
     StorageReference reference;
     FirebaseAuth auth;
     AlertDialog.Builder builder;
-    private FirebaseDatabase FD=FirebaseDatabase.getInstance();
+    private FirebaseDatabase FD = FirebaseDatabase.getInstance();
     private DatabaseReference DR;
     SharedPreferences sp;
-    private static final int REQUEST_CODE_LOCATION = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
     Geocoder geocoder;
     String startPoint;
-    String name, location, date,time,note, type;
+    String name, location, date, time, note, type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,26 +112,33 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        FloatingBubblePermissions.startPermissionRequest(this);
+        Button startBubble = findViewById(R.id.startBubble);
+        startBubble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startService(new Intent(getApplicationContext(), SimpleService.class));
+            }
+        });
         db = FirebaseFirestore.getInstance();
         tripArrayList = new ArrayList<Trip>();
-        adapter = new MyAdabter(Home.this,tripArrayList);
+        adapter = new MyAdabter(Home.this, tripArrayList);
 
         recyclerView.setAdapter(adapter);
 
-        sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
-        String tripuid=sp.getString("uid","");
+        sp = getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
+        String tripuid = sp.getString("uid", "");
 
-        DR=FD.getReference().child("Users").child(tripuid).child("upcomingtrip");
+        DR = FD.getReference().child("Users").child(tripuid).child("upcomingtrip");
 
         // add trip from realtime database
         DR.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Trip trip=dataSnapshot.getValue(Trip.class);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
                     tripArrayList.add(trip);
-                 //   setAlarm(trip.getCal());
+                    //   setAlarm(trip.getCal());
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -145,7 +149,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
             }
         });
 
-      //  EventChangeListener();
+        //  EventChangeListener();
 
         add = (ImageButton) findViewById(R.id.home_add_btn);
 
@@ -157,7 +161,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout = findViewById(R.id.drawer);
-        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -184,12 +188,15 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                     String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
                     ActivityCompat.requestPermissions(Home.this, permissions, LOCATION_REQUEST_CODE);
                 } else {
-                    Intent i = new Intent(getApplicationContext(),Add_Trip.class);
+                    Intent i = new Intent(getApplicationContext(), Add_Trip.class);
+                    i.putExtra("startpoint",startPoint);
                     startActivity(i);
                 }
 
             }
         });
+        FloatingBubblePermissions.startPermissionRequest(this);
+
 
         registerForContextMenu(recyclerView);
 
@@ -200,20 +207,22 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         } else {
             askLocationPermission();
         }
+
+
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100 && resultCode == Activity.RESULT_OK)
-        {
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             userImg = (CircularImageView) findViewById(R.id.menu_img);
             userImg.setBackground(null);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                 Bitmap b = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
-                uri = getImageUri(getApplicationContext(),b);
+                uri = getImageUri(getApplicationContext(), b);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -243,16 +252,16 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null){
+                        if (error != null) {
 
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
-                            Log.e("firebase Error",error.getMessage());
+                            Log.e("firebase Error", error.getMessage());
                             return;
                         }
-                        for (DocumentChange dc :value.getDocumentChanges()){
-                            if(dc.getType() == DocumentChange.Type.ADDED){
-                               tripArrayList.add(dc.getDocument().toObject(Trip.class));
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                tripArrayList.add(dc.getDocument().toObject(Trip.class));
 
                             }
                             adapter.notifyDataSetChanged();
@@ -272,25 +281,25 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case 120:
                 DialogFragment dialogFragment = new DialogFragment(item.getGroupId());
-                dialogFragment.show(getSupportFragmentManager(),null);
+                dialogFragment.show(getSupportFragmentManager(), null);
                 return true;
             case 121:
                 Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                 return true;
             case 122:
-                Trip trip = new Trip(name,location,date,time,type,startPoint,note);
-                sp= getApplicationContext().getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
-                String  tripuid=sp.getString("uid","");
+                Trip trip = new Trip(name, location, date, time, type, startPoint, note);
+                sp = getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
+                String tripuid = sp.getString("uid", "");
                 FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip").child(trip.getName()).removeValue();
-                      //  .child(tripArrayList.get(position).getName()).removeValue();
-               // adapter.removeItem(item.getGroupId());
+                //  .child(tripArrayList.get(position).getName()).removeValue();
+                // adapter.removeItem(item.getGroupId());
                 return true;
             case 123:
 
-              //  Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return true;
@@ -298,16 +307,16 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       if(drawerToggle.onOptionsItemSelected(item))
-           return true;
+        if (drawerToggle.onOptionsItemSelected(item))
+            return true;
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -324,27 +333,27 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 break;
             case R.id.menu_set_profile_pic:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,100);
+                startActivityForResult(intent, 100);
                 break;
             case R.id.menu_log_out:
-                builder =new AlertDialog.Builder(this);
+                builder = new AlertDialog.Builder(this);
                 builder.setTitle("Log Out")
                         .setMessage("Are you sure to log out ?")
                         .setCancelable(true)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile",0);
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", 0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.remove("hasLoggedIn");
                                 editor.commit();
 
-                                Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
+                                Intent intent = new Intent(getApplicationContext(), AlertReceiver.class);
                                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 888, intent, 0);
                                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                                 alarmManager.cancel(pendingIntent);
 
-                                Intent i = new Intent(Home.this,SignInActivity.class);
+                                Intent i = new Intent(Home.this, SignInActivity.class);
 
                                 startActivity(i);
                                 finish();
@@ -362,6 +371,7 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
         }
         return true;
     }
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -370,31 +380,30 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     }
 
 
+    /* if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-
-   /* if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(MainActivity.this, permissions, LOCATION_REQUEST_CODE);
-        } else {
-            locationProv.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-        }
-        @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_REQUEST_CODE) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationProv.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-            }
-        }
-    }
-*/
+             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+             ActivityCompat.requestPermissions(MainActivity.this, permissions, LOCATION_REQUEST_CODE);
+         } else {
+             locationProv.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+         }
+         @Override
+     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+         if (requestCode == LOCATION_REQUEST_CODE) {
+             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                 locationProv.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+             }
+         }
+     }
+ */
     @Override
-    public void onPositiveButtonCliced(String note,int position) {
-        adapter.setNot(note,position);
+    public void onPositiveButtonCliced(String note, int position) {
+        adapter.setNot(note, position);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -403,20 +412,30 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                     Toast.makeText(Home.this, "permisson aceppted", Toast.LENGTH_SHORT).show();
-                }
             }
         }
+    }
 
     private void getLastLocation() {
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(Home.this,location -> {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(Home.this, location -> {
             if (location != null) {
                 double latitude = location.getLatitude();
                 double longtitude = location.getLongitude();
-                startPoint = "failed";
+                String startPoint2 = "failed";
                 List<Address> addresses;
                 try {
-                    addresses= geocoder.getFromLocation(latitude,longtitude,1);
-                    startPoint = "AddressLine: " + addresses.get(0).getAddressLine(0);
+                    addresses = geocoder.getFromLocation(latitude, longtitude, 1);
+                    startPoint = addresses.get(0).getAddressLine(0);
                     adapter.setStartPoint(addresses.get(0).getAddressLine(0));
                 } catch (IOException e) {
                     e.printStackTrace();

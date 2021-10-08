@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
@@ -15,10 +16,16 @@ public class AlertReceiver extends BroadcastReceiver {
     private NotificationHelper helper;
     @Override
     public void onReceive(Context context, Intent intent) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, Settings.System.DEFAULT_ALARM_ALERT_URI);
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
         mediaPlayer.start();
         helper = new NotificationHelper(context);
-        setNotification("snooze" , "You snooze a trip" , context);
+        Bundle extra = intent.getExtras();
+        String startpoint = extra.getString("startpoint");
+        String endpoint = extra.getString("endpoint");
+
+        setNotification("snooze" , "You snooze a trip" , context,startpoint,endpoint);
+
+
 
         /*AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle("Alarm");
@@ -47,8 +54,8 @@ public class AlertReceiver extends BroadcastReceiver {
         dialog.create().show();*/
     }
 
-    private void setNotification(String title , String message ,Context context) {
-        NotificationCompat.Builder builder = helper.getChannel(title,message,context);
+    private void setNotification(String title , String message ,Context context,String startpoint,String endpoint) {
+        NotificationCompat.Builder builder = helper.getChannel(title,message,context,startpoint,endpoint);
         helper.getNotificationManager().notify(1,builder.build());
     }
 }

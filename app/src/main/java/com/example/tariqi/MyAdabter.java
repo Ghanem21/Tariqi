@@ -1,5 +1,7 @@
 package com.example.tariqi;
 
+import static org.chromium.base.ContextUtils.getApplicationContext;
+
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -35,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.siddharthks.bubbles.FloatingBubblePermissions;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -106,8 +109,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 dialog.create().show();
             }
         });
-
-        // setAlarm(tripArayList.get(position).getCal());
+                // setAlarm(tripArayList.get(position).getCal());
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +133,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 userMap.put("location",location);
                 userMap.put("date",date);
                 userMap.put("time",time);
+
                 userMap.put("type",type);
                 userMap.put("note",tripArrayList.get(position).getNote());
                 userMap.put("calender",timecalender+"");
@@ -144,11 +147,17 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                         .child(tripArrayList.get(position).getName()).child("time").setValue(newTime);
                 FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
                         .child(tripArrayList.get(position).getName()).child("date").setValue(newDate);
+                FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                        .child(tripArrayList.get(position).getName()).child("start").setValue(startPoint);
 
                 FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("donetrip").child(trip.name).setValue(userMap);
                 displayMap();
                 notifyDataSetChanged();
                // removeItem(position);
+
+
+               // context.startService(new Intent(getApplicationContext(), SimpleService.class));
+
 
 
                 FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
@@ -238,7 +247,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         Geocoder geocoder = new Geocoder(context);
         List<Address> addresses = null;
         try {
-            addresses = geocoder.getFromLocationName(tripArrayList.get(position).getLocation(), 5);
+            addresses = geocoder.getFromLocationName("cairo", 5);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -248,6 +257,8 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         intent.setPackage("com.google.android.apps.maps");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+
+
     }
     @Override
     public int getItemCount() {

@@ -31,8 +31,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -61,6 +63,13 @@ TextView textView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
+        Bundle extra = getIntent().getExtras();
+        if (extra != null){
+            startPoint = extra.getString("startpoint");
+        }
+        else{
+           startPoint= extra.getString("startpoint2");
+        }
         Calendar calendar =Calendar.getInstance();
         cyear=calendar.get(Calendar.YEAR);
         cmonth=calendar.get(Calendar.MONTH);
@@ -88,7 +97,7 @@ TextView textView;
             @Override
             public void onClick(View v) {
                 String name = tripName.getText().toString();
-                String startPoint = startPoint1.getText().toString();
+                String start = startPoint;
                 String location = endPoint.getText().toString();
                 String date = date_tv.getText().toString();
                 String time = time_tv.getText().toString();
@@ -205,10 +214,13 @@ TextView textView;
     public void setAlarm(Calendar calendar){
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(),AlertReceiver.class);
+        intent.putExtra("startpoint",startPoint);
+        intent.putExtra("endpoint",endPoint.getText().toString());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),888,intent,0);
         if (calendar.before(Calendar.getInstance())){
             calendar.add(calendar.DATE,1);
         }
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
     }
+
 }
