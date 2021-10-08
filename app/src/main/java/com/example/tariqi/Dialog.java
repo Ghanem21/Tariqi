@@ -1,26 +1,25 @@
 package com.example.tariqi;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.media.MediaPlayer;
-import android.provider.Settings;
-
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-public class AlertReceiver extends BroadcastReceiver {
+import android.content.Context;
+import android.content.DialogInterface;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.provider.Settings;
+
+public class Dialog extends AppCompatActivity {
     private NotificationHelper helper;
     @Override
-    public void onReceive(Context context, Intent intent) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dialog);
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Settings.System.DEFAULT_NOTIFICATION_URI);
         mediaPlayer.start();
-        helper = new NotificationHelper(context);
-        setNotification("snooze" , "You snooze a trip" , context);
 
-        /*AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getApplicationContext());
         dialog.setTitle("Alarm");
         dialog.setMessage("it's time of Trip");
         dialog.setIcon(R.drawable.alarm);
@@ -40,14 +39,14 @@ public class AlertReceiver extends BroadcastReceiver {
         dialog.setNeutralButton("Snooze", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setNotification("snooze" , "You snooze a trip" , context);
+                helper = new NotificationHelper(getApplicationContext());
+                setNotification("snooze" , "You snooze a trip" , getApplicationContext());
                 mediaPlayer.stop();
             }
         });
-        dialog.create().show();*/
+        dialog.create().show();
     }
-
-    private void setNotification(String title , String message ,Context context) {
+    private void setNotification(String title , String message , Context context) {
         NotificationCompat.Builder builder = helper.getChannel(title,message,context);
         helper.getNotificationManager().notify(1,builder.build());
     }

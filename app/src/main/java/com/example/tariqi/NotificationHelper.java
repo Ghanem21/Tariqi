@@ -8,11 +8,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
+import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper extends ContextWrapper {
+
     public static final String channel1ID = "channel1ID";
     public static final String channel1Name = "channel 1";
     private NotificationManager manager;
@@ -49,5 +52,6 @@ public class NotificationHelper extends ContextWrapper {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
+
     }
 }

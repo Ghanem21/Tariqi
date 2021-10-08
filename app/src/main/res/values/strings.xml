@@ -48,7 +48,7 @@
     <string name="Forget_Password">Forget Password ?</string>
     <string name="facebook_app_id">1265402910597955</string>
     <string name="fb_login_protocol_scheme">fb1265402910597955</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_your_note">Enter Your Note</string>
     <string name="delet_trip">Delet Trip</string>
@@ -58,13 +58,13 @@
     <string name="sign_up_with_google">Sign up with google</string>
 
 
-<!--       <string name="default_web_client_id" translatable="false">219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com</string>-->
-<!--    <string name="gcm_defaultSenderId" translatable="false">219834984630</string>-->
-<!--    <string name="google_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
-<!--    <string name="google_app_id" translatable="false">1:219834984630:android:7cc29894eb23ff4920de17</string>-->
-<!--    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
-<!--    <string name="google_storage_bucket" translatable="false">tariqi-609d8.appspot.com</string>-->
-<!--    <string name="project_id" translatable="false">tariqi-609d8</string>-->
+    <!--       <string name="default_web_client_id" translatable="false">219834984630-frslme7uchngfhb866gg5jl2826213n7.apps.googleusercontent.com</string>-->
+    <!--    <string name="gcm_defaultSenderId" translatable="false">219834984630</string>-->
+    <!--    <string name="google_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
+    <!--    <string name="google_app_id" translatable="false">1:219834984630:android:7cc29894eb23ff4920de17</string>-->
+    <!--    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAe7I27DjskbPR6gzSB8_IFyaDTa8mi8_0</string>-->
+    <!--    <string name="google_storage_bucket" translatable="false">tariqi-609d8.appspot.com</string>-->
+    <!--    <string name="project_id" translatable="false">tariqi-609d8</string>-->
 
 
 </resources>

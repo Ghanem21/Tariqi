@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tariqi">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -14,9 +14,13 @@
         android:roundIcon="@drawable/logo2"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tariqi">
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <activity
+            android:name=".Dialog"
+            android:exported="true" />
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name=".TwitterActivity"
@@ -24,14 +28,9 @@
         <activity
             android:name=".History"
             android:exported="true" />
-
         <activity
             android:name=".Add_Trip"
-            android:exported="true"
-            >
-
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".splash_screen"
             android:exported="true"
@@ -45,20 +44,16 @@
         <activity
             android:name=".Home"
             android:exported="true"
-            android:label="Home">
-
-        </activity>
+            android:label="Home"></activity>
         <activity
             android:name=".Sign_Up"
             android:exported="true"
-            android:label="@string/sign_up">
-
-        </activity>
-
+            android:label="@string/sign_up"></activity>
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
-        <receiver android:name=".AlertReceiver"/>
+
+        <receiver android:name=".AlertReceiver" />
     </application>
 
 </manifest>
