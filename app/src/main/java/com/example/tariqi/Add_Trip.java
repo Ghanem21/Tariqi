@@ -43,13 +43,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class Add_Trip extends AppCompatActivity {
 TextView textView;
     //ghanem add for datebase
     FirebaseFirestore db;
     EditText tripName,startPoint1,endPoint;
-    Button addTrip;
+    Button addTrip,updateTrip;
     RadioGroup radioGroup;
     RadioButton radioButton;
     TextView date_tv , time_tv;
@@ -57,6 +58,8 @@ TextView textView;
     SharedPreferences sp;
     long calTime;
     int cyear,cmonth,cday,syear,smonth,sday,chour,cminute,shour,sminute;
+    Bundle bundle;
+    ArrayList<Trip> tripArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,8 +112,7 @@ TextView textView;
                 userMap.put("type",type);
                 userMap.put("calender",calTime+"");
                 userMap.put("note","");
-
-
+                userMap.put("trip_cancle","");
 
                 sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
                 String tripuid=sp.getString("uid","");
@@ -178,6 +180,44 @@ TextView textView;
                 datePickerDialog.show();
             }
         });
+
+
+        //edit data
+
+        bundle=getIntent().getExtras();
+        if(bundle !=null){
+            tripName.setText(bundle.getString("tripName"));
+            endPoint.setText(bundle.getString("triplocation"));
+            time_tv.setText(bundle.getString("tripTime"));
+            date_tv.setText(bundle.getString("tripDate"));
+            updateTrip=findViewById(R.id.btn_update_trip);
+            addTrip.setVisibility(View.GONE);
+            updateTrip.setVisibility(View.VISIBLE);
+            updateTrip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",tripName.getText().toString());
+                    map.put("end",endPoint.getText().toString());
+                    map.put("date",date_tv.getText().toString());
+                    map.put("time",time_tv.getText().toString());
+                    map.put("type",radioButton.getText().toString());
+
+                    Trip trip= new Trip(name,location,date,time,type,startPoint,note);
+                    sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
+                    String tripuid=sp.getString("uid","");
+                    System.out.println(tripName.getText().toString()+"rahma");
+                    FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                            .child(tripName.getText().toString()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Intent homeintent= new Intent(Add_Trip.this,Home.class);
+                            startActivity(homeintent);
+                        }
+                    });
+                }
+            });
+        }
     }
     public  void checkedRadioButton(View view){
         int radiobtn = radioGroup.getCheckedRadioButtonId();
@@ -211,4 +251,6 @@ TextView textView;
         }
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
     }
+
+
 }

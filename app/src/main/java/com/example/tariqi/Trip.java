@@ -9,7 +9,7 @@ public class Trip {
      String type;
      String startPoint;
     String email,password,uid,upcomingid,doneid;
-    String note;
+    String note,cancle;
     long cal;
     public Trip(String email, String password) {
         this.email = email;
@@ -38,7 +38,7 @@ public class Trip {
         this.note = note;
     }
 
-    public Trip(String name, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ) {
+    public Trip(String name, String location, String date, String time, String type, String uid, String email, String password,String upcomingid,String doneid ,String cancle) {
         this.name = name;
         this.location = location;
         this.date = date;
@@ -50,6 +50,15 @@ public class Trip {
         this.upcomingid=upcomingid;
         this.doneid=doneid;
         note = "";
+        this.cancle=cancle;
+    }
+
+    public String getCancle() {
+        return cancle;
+    }
+
+    public void setCancle(String cancle) {
+        this.cancle = cancle;
     }
 
     public long getCal() {

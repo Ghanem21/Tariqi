@@ -54,6 +54,8 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
     SharedPreferences sp;
     String startPoint;
     String str;
+    Trip trip;
+
     public void setStartPoint(String startPoint) {
         this.startPoint = startPoint;
     }
@@ -134,6 +136,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 userMap.put("type",type);
                 userMap.put("note",tripArrayList.get(position).getNote());
                 userMap.put("calender",timecalender+"");
+                userMap.put("trip_cancle","");
 
 
 
@@ -160,69 +163,8 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                 notifyItemRemoved(position);
             }
         });
-        // update data in add trip page
-        holder.update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DialogPlus dialogPlus=DialogPlus.newDialog(holder.tripname.getContext())
-                        .setContentHolder(new ViewHolder(R.layout.update_data)).setExpanded(true,1700).create();
-
-                View view=dialogPlus.getHolderView();
-              EditText editTripName,editTriplocation,editTripStart,editTripTime,editTripDate,editTripType,editTripnote;
-              Button btnUpdateTrip;
-                editTripName=view.findViewById(R.id.edt_trip_name);
-                editTriplocation=view.findViewById(R.id.edt_end_point);
-                editTripStart=view.findViewById(R.id.edt_start_point);
-                editTripDate=view.findViewById(R.id.addtrip_tv_date);
-                editTripTime=view.findViewById(R.id.addtrip_tv_time);
-                editTripType=view.findViewById(R.id.radia_id1);
-                btnUpdateTrip=view.findViewById(R.id.btn_update_trip);
-
-                editTripName.setText(trip.getName());
-                editTriplocation.setText(trip.getLocation());
-                editTripDate.setText(trip.getDate());
-                editTripTime.setText(trip.getTime());
-//                editTripType.setText(trip.getType());
-//                if( trip.getNote() == null){
-//                    editTripnote.setText("");
-//                }else {
-//                    editTripnote.setText(trip.getNote());
-//                }
-                btnUpdateTrip.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Map<String,Object> map= new HashMap<>();
-                        map.put("name",editTripName.getText().toString());
-                        map.put("start",editTripStart.getText().toString());
-                        map.put("end",editTriplocation.getText().toString());
-                        map.put("date",editTripDate.getText().toString());
-                        map.put("time",editTripTime.getText().toString());
-                        map.put("type",editTripType.getText().toString());
-                        //map.put("note",editTripnote.getText().toString());
 
 
-                        sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
-                        tripuid=sp.getString("uid","");
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
-                                .child(tripArrayList.get(position).getName()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(holder.tripname.getContext(), "success", Toast.LENGTH_SHORT).show();
-                                dialogPlus.dismiss();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(holder.tripname.getContext(), "faild", Toast.LENGTH_SHORT).show();
-                                dialogPlus.dismiss();
-                            }
-                        });
-                    }
-                });
-                dialogPlus.show();
-
-            }
-        });
     }
     public void setAlarm(long time){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
@@ -288,7 +230,7 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
                     dialog.create().show();
                 }
             });
-            update=itemView.findViewById(R.id.btn_edit);
+
 
             itemView.setOnCreateContextMenuListener(this);
         }
@@ -315,9 +257,48 @@ public class MyAdabter extends RecyclerView.Adapter<MyAdabter.MyViewholder> {
         }
         tripArrayList.get(position).setNote(str);
         sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
-        System.out.println(str);
         tripuid=sp.getString("uid","");
         FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
                 .child(tripArrayList.get(position).getName()).child("note").setValue(str);
+    }
+
+    public void editTrip(){
+        Intent intentTrip= new Intent(context,Add_Trip.class);
+
+        intentTrip.putExtra("tripName",tripArrayList.get(position).getName());
+        intentTrip.putExtra("triplocation",tripArrayList.get(position).getLocation());
+        intentTrip.putExtra("tripDate",tripArrayList.get(position).getDate());
+        intentTrip.putExtra("tripTime",tripArrayList.get(position).getTime());
+        context.startActivity(intentTrip);
+
+
+    }
+    public void removeTrip(){
+        sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
+        tripuid=sp.getString("uid","");
+        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip").child(tripArrayList.get(position).getName()).removeValue();
+    }
+    public void cancleTrip(){
+
+        HashMap <String,Object> user= new HashMap<>();
+        user.put("name", tripArrayList.get(position).getName());
+        user.put("location", tripArrayList.get(position).getLocation());
+        user.put("date", tripArrayList.get(position).getDate());
+        user.put("time", tripArrayList.get(position).getTime());
+        user.put("note", tripArrayList.get(position).getNote());
+        user.put("trip_cancle", "");
+        user.put("type",tripArrayList.get(position).getType());
+        sp= context.getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
+        tripuid=sp.getString("uid","");
+        String cancle="cancle";
+
+        FirebaseDatabase.getInstance().getReference("Users").child(tripuid).child("donetrip").child(tripArrayList.get(position)
+                .getName()).setValue(user);
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("donetrip")
+                .child(tripArrayList.get(position).getName()).child("trip_cancle").setValue(cancle);
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip")
+                .child(tripArrayList.get(position).getName()).removeValue();
     }
 }

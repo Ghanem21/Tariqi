@@ -108,7 +108,7 @@ Context context;
         tripArrayList= new ArrayList<Trip>();
 
         AdapterHistoy adapterHistoy= new AdapterHistoy(tripArrayList,this);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,1));
         recyclerView.setAdapter(adapterHistoy);
         sp=getApplicationContext().getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
         String tripuid=sp.getString("uid","");

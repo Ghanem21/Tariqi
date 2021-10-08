@@ -51,6 +51,8 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
         holder.tripDate.setText(tripArrayList.get(position).getDate());
         holder.tripType.setText(tripArrayList.get(position).getType());
         holder.tripTime.setText(tripArrayList.get(position).getTime());
+        holder.tripNote.setText(tripArrayList.get(position).getNote());
+        holder.cancle.setText(tripArrayList.get(position).getCancle());
 
         holder.showDetils.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +66,9 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                 holder.delet.setVisibility(View.VISIBLE);
                 holder.showLess.setVisibility(View.VISIBLE);
                 holder.showDetils.setVisibility(View.GONE);
+                holder.cancle.setVisibility(View.VISIBLE);
+                holder.tripNote.setVisibility(View.VISIBLE);
+
             }
         });
         holder.showLess.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +82,8 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                 holder.delet.setVisibility(View.GONE);
                 holder.showDetils.setVisibility(View.VISIBLE);
                 holder.showLess.setVisibility(View.GONE);
+                holder.cancle.setVisibility(View.GONE);
+                holder.tripNote.setVisibility(View.GONE);
 
             }
         });
@@ -95,10 +102,7 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
                         FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("donetrip").child(tripArrayList.get(position).getName()).removeValue();
                         tripArrayList.remove(position);
                         notifyItemRemoved(position);
-//                        sp=context.getSharedPreferences("UserPrefrence", Context.MODE_PRIVATE);
-//                        String tripuid=sp.getString("uid","");
-//                        DR=FD.getReference().child("Users").child(tripuid).child("donetrip").child(DR.getKey()).removeValue();
-//                        Toast.makeText(holder.tripname, "delete", Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 builder.setNegativeButton("cancle", new DialogInterface.OnClickListener() {
@@ -125,7 +129,7 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
 
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tripname,tripLocation,tripTime,tripType,tripDate,tripNote,showDetils,delet,showLess;
+        TextView tripname,tripLocation,tripTime,tripType,tripDate,tripNote,showDetils,delet,showLess,cancle;
         CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +143,7 @@ public class AdapterHistoy extends RecyclerView.Adapter<AdapterHistoy.ViewHolder
             showDetils=itemView.findViewById(R.id.details);
             delet=itemView.findViewById(R.id.txtdelet);
             showLess=itemView.findViewById(R.id.less);
+            cancle=itemView.findViewById(R.id.txtCancle);
 
         }
     }

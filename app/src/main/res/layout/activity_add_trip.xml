@@ -133,6 +133,20 @@
         android:textAllCaps="true"
         android:textColor="@drawable/button_text_color"
         android:textSize="20sp" />
+    <Button
+        android:id="@+id/btn_update_trip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="@string/edit_trip"
+        android:textAllCaps="true"
+        android:textColor="@drawable/button_text_color"
+        android:textSize="20sp"
+        android:visibility="gone"
+        />
 
 
 </LinearLayout>

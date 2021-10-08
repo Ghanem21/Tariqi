@@ -263,24 +263,22 @@ public class Home extends AppCompatActivity implements OnNavigationItemSelectedL
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+
             case 120:
                 DialogFragment dialogFragment = new DialogFragment(item.getGroupId());
                 dialogFragment.show(getSupportFragmentManager(),null);
                 return true;
             case 121:
-                Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                adapter.editTrip();
+
                 return true;
             case 122:
-                Trip trip = new Trip(name,location,date,time,type,startPoint,note);
-                sp= getApplicationContext().getSharedPreferences("UserPrefrence",Context.MODE_PRIVATE);
-                String  tripuid=sp.getString("uid","");
-                FirebaseDatabase.getInstance().getReference().child("Users").child(tripuid).child("upcomingtrip").child(trip.getName()).removeValue();
-                      //  .child(tripArrayList.get(position).getName()).removeValue();
-               // adapter.removeItem(item.getGroupId());
+                adapter.removeTrip();
+                adapter.removeItem(item.getGroupId());
                 return true;
             case 123:
-
-              //  Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+                adapter.cancleTrip();
+                Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return true;
